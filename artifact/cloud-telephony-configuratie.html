@@ -1,0 +1,4392 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="app-version" content="2026-10-21.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cloud Telephony – configuratieformulier</title>
+<!-- PDF-bibliotheken (exacte versies vastgepind); het formulier werkt enkel online. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<style>
+/* Opmaak van het Cloud Telephony-configuratieformulier (zwart/oranje huisstijl, donkere modus, mobiele weergave). */
+:root {
+  --bg: #f5f6f8;
+  --card: #fff;
+  --tx: #1b2430;
+  --mu: #677284;
+  --bd: #d6dbe3;
+  --ac: #1d5fd1;
+  --ac2: #fff;
+  --er: #c0392b;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14181f;
+    --card: #1e242d;
+    --tx: #e8ecf2;
+    --mu: #98a3b5;
+    --bd: #333c4a;
+    --ac: #5b93f0;
+    --ac2: #0b1220;
+    --er: #ff7b6b;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14181f;
+  --card: #1e242d;
+  --tx: #e8ecf2;
+  --mu: #98a3b5;
+  --bd: #333c4a;
+  --ac: #5b93f0;
+  --ac2: #0b1220;
+  --er: #ff7b6b;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font:
+    16px/1.45 system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+h1 {
+  font-size: 1.4rem;
+  margin: 0 0 4px;
+}
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 14px;
+}
+.sub {
+  color: var(--mu);
+  margin: 0 0 18px;
+}
+.steps {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.steps i {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bd);
+}
+.steps i.on {
+  background: var(--ac);
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  padding: 18px;
+}
+.step {
+  display: none;
+}
+.step.show {
+  display: block;
+}
+label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin: 12px 0 4px;
+}
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--tx);
+  font: inherit;
+}
+input[type="checkbox"] {
+  width: auto;
+}
+.cond {
+  display: none;
+  margin-left: 10px;
+  padding-left: 12px;
+  border-left: 3px solid var(--ac);
+}
+.cond.show {
+  display: block;
+}
+.blk {
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 4px 14px 14px;
+  margin-bottom: 14px;
+}
+.blk > b {
+  display: block;
+  margin-top: 12px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: end;
+}
+.person {
+  border: 1px solid var(--bd);
+  border-radius: 10px;
+  padding: 10px 12px 12px;
+  margin-bottom: 12px;
+}
+.g {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0 10px;
+}
+.g label.chk {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  margin-top: 14px;
+}
+.full {
+  grid-column: 1/-1;
+}
+button {
+  font: inherit;
+  border-radius: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  color: var(--tx);
+  cursor: pointer;
+}
+button.p {
+  background: var(--ac);
+  color: var(--ac2);
+  border-color: var(--ac);
+  font-weight: 600;
+}
+button.x {
+  padding: 8px 12px;
+  color: var(--er);
+}
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 18px;
+}
+.err {
+  color: var(--er);
+  font-size: 0.88rem;
+  margin-top: 10px;
+  min-height: 1em;
+}
+.sum {
+  overflow-x: auto;
+}
+.sum table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.88rem;
+  margin-bottom: 14px;
+}
+.sum th,
+.sum td {
+  border: 1px solid var(--bd);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+.sum th {
+  background: var(--bg);
+}
+@media (max-width: 540px) {
+  .row {
+    grid-template-columns: 1fr auto;
+  }
+  .row .n2 {
+    grid-column: 1/2;
+  }
+  .g {
+    grid-template-columns: 1fr;
+  }
+}
+.np select {
+  min-width: 140px;
+}
+.tw {
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+table.np {
+  border-collapse: collapse;
+  min-width: 900px;
+  width: 100%;
+}
+.np th {
+  font-size: 0.8rem;
+  text-align: left;
+  padding: 4px;
+}
+.np td {
+  padding: 3px;
+}
+.np input {
+  min-width: 90px;
+  padding: 8px;
+}
+.np input[type="checkbox"] {
+  min-width: 0;
+}
+.kg {
+  margin: 0 0 14px 10px;
+  padding-left: 12px;
+  border-left: 3px solid var(--bd);
+}
+.mem label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 500;
+  margin: 6px 0;
+}
+.sum td {
+  white-space: pre-wrap;
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+table.np {
+  table-layout: fixed;
+  min-width: 1100px;
+}
+.np input,
+.np select {
+  min-width: 0;
+  width: 100%;
+}
+.np input[type="checkbox"] {
+  width: auto;
+}
+.np th:nth-child(1) {
+  width: 80px;
+}
+.np th:nth-child(2) {
+  width: 170px;
+}
+.np th:nth-child(3) {
+  width: 130px;
+}
+.np th:nth-child(4) {
+  width: 150px;
+}
+.np th:nth-child(5),
+.np th:nth-child(6) {
+  width: 50px;
+}
+.np th:nth-child(7) {
+  width: 140px;
+}
+.np th:nth-child(9) {
+  width: 48px;
+}
+.krow {
+  display: grid;
+  grid-template-columns: 120px 190px 1fr auto;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+@media (max-width: 540px) {
+  .krow {
+    grid-template-columns: 110px 1fr auto;
+  }
+  .krow .kt {
+    grid-column: 1/-1;
+  }
+}
+.urow {
+  display: grid;
+  grid-template-columns: 150px 1fr 130px 1fr;
+  gap: 8px;
+  margin-bottom: 6px;
+  align-items: center;
+}
+.urow label {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+@media (max-width: 540px) {
+  .urow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .urow label {
+    grid-column: 1/-1;
+  }
+}
+/* Orange-geïnspireerde huisstijl */
+:root {
+  --bg: #f2f2f2;
+  --card: #fff;
+  --bd: #cccccc;
+  --mu: #595959;
+  --ac: #ff7900;
+  --ac2: #000;
+  --hd: #000;
+  --hdt: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ac: #ff7900;
+    --ac2: #000;
+    --hd: #000;
+    --hdt: #fff;
+  }
+}
+:root[data-theme="dark"] {
+  --ac: #ff7900;
+  --ac2: #000;
+  --hd: #000;
+  --hdt: #fff;
+}
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.in {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.top {
+  background: #000;
+  color: #fff;
+  border-bottom: 4px solid #ff7900;
+  padding: 26px 0 22px;
+}
+.top h1 {
+  margin: 0 0 6px;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #fff;
+}
+.top p {
+  margin: 0;
+  color: #ccc;
+}
+footer {
+  background: #000;
+  color: #bbb;
+  font-size: 0.85rem;
+  padding: 20px 0;
+  margin-top: 8px;
+}
+main {
+  padding-top: 24px;
+}
+h2 {
+  border-left: 6px solid var(--ac);
+  padding-left: 10px;
+}
+.steps i {
+  height: 4px;
+  border-radius: 0;
+}
+.card,
+.blk,
+.person,
+input,
+select,
+button {
+  border-radius: 0;
+}
+input,
+select {
+  border: 1px solid var(--mu);
+}
+button {
+  border: 1px solid var(--tx);
+  background: transparent;
+  font-weight: 700;
+}
+button.p {
+  background: var(--ac);
+  color: var(--ac2);
+  border-color: var(--ac);
+}
+button.p:hover:not(:disabled) {
+  background: #cc6100;
+  border-color: #cc6100;
+}
+button:hover:not(.p):not(.x):not(:disabled) {
+  background: var(--tx);
+  color: var(--card);
+}
+button.x {
+  border-color: var(--bd);
+}
+input[type="checkbox"] {
+  accent-color: var(--ac);
+}
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--ac);
+  outline-offset: 1px;
+}
+.sum th {
+  background: var(--hd);
+  color: var(--hdt);
+}
+.top {
+  background: #000;
+  color: #fff;
+  padding-top: 14px;
+}
+.top h1 {
+  color: #fff;
+}
+.top p {
+  color: #ccc;
+}
+.logo {
+  height: 76px;
+  width: auto;
+  display: block;
+  margin: 0 0 6px -10px;
+}
+.urow2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  max-width: 360px;
+}
+.tp {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.tp input {
+  min-width: 0;
+}
+/* Excel-achtig nummerplan */
+table.np {
+  border: 1px solid var(--bd);
+  background: var(--card);
+}
+.np th {
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  padding: 8px;
+  font-weight: 700;
+}
+.np td {
+  padding: 0;
+  border: 1px solid var(--bd);
+}
+.np td input:not([type="checkbox"]),
+.np td select {
+  border: 0;
+  background: transparent;
+  padding: 9px 8px;
+  height: 40px;
+}
+.np td input:focus-visible,
+.np td select:focus-visible {
+  outline: 2px solid var(--ac);
+  outline-offset: -2px;
+}
+.np td:focus-within {
+  background: rgba(255, 121, 0, 0.1);
+}
+.np td:nth-child(5),
+.np td:nth-child(6) {
+  text-align: center;
+}
+.np td input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  vertical-align: middle;
+}
+.np td button.x {
+  border: 0;
+  padding: 8px 12px;
+  width: 100%;
+}
+/* call-flow schema */
+:root {
+  --ln: #a9b1bd;
+  --ok: #0a7a5a;
+  --sh: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ln: #5a6576;
+    --ok: #4fd1a5;
+  }
+}
+:root[data-theme="dark"] {
+  --ln: #5a6576;
+  --ok: #4fd1a5;
+}
+.sch button,
+#menu button,
+#conf button {
+  font: inherit;
+  font-weight: 600;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  color: var(--tx);
+  padding: 7px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.sch button:hover:not(:disabled) {
+  border-color: var(--ac);
+}
+.sch button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.sch button.p,
+#conf button.p {
+  background: var(--ac);
+  border-color: var(--ac);
+  color: #000;
+}
+.sch input,
+.sch select {
+  width: 100%;
+  font: inherit;
+  color: var(--tx);
+  background: var(--bg);
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  padding: 7px 9px;
+}
+.sch input:focus,
+.sch select:focus {
+  outline: 2px solid var(--ac);
+  border-color: var(--ac);
+}
+.st {
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--bd);
+  border-left: 6px solid var(--ok);
+  background: var(--bg);
+}
+.st.w {
+  border-left-color: var(--ac);
+}
+.st ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+.st .mu {
+  color: var(--mu);
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+.wrap {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.cv {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 22px 18px 26px;
+  min-height: 240px;
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  background-color: var(--card);
+  background-image: radial-gradient(var(--bd) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+#tree {
+  display: inline-block;
+  min-width: 100%;
+}
+#panel {
+  width: 380px;
+  flex: none;
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  box-shadow: var(--sh);
+  background: var(--card);
+  padding: 14px 16px;
+  position: sticky;
+  top: 8px;
+}
+.node {
+  display: flex;
+  align-items: center;
+}
+.kids {
+  display: flex;
+  flex-direction: column;
+  margin-left: 30px;
+  position: relative;
+}
+.kids:before {
+  content: "";
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  width: 30px;
+  border-top: 2px solid var(--ln);
+}
+.kid {
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 9px 0 9px 30px;
+}
+.kid:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 30px;
+  border-top: 2px solid var(--ln);
+}
+.kid:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-left: 2px solid var(--ln);
+}
+.kid:first-child:after {
+  top: 50%;
+}
+.kid:last-child:after {
+  bottom: 50%;
+}
+.kid:only-child:after {
+  display: none;
+}
+.lab {
+  margin-right: 10px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  background: var(--card);
+  border: 1px solid var(--ln);
+  border-radius: 999px;
+  padding: 3px 10px;
+  max-width: 160px;
+  box-shadow: var(--sh);
+}
+.ic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--c, #888) 18%, transparent);
+  flex: none;
+}
+.sch .tile {
+  width: 126px;
+  height: 110px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  box-shadow: var(--sh);
+  padding: 6px 4px;
+  font-weight: 400;
+  position: relative;
+  transition:
+    transform 0.12s,
+    box-shadow 0.12s;
+}
+.sch .tile .ic {
+  width: 44px;
+  height: 44px;
+  font-size: 22px;
+}
+.sch .tile b {
+  font-size: 0.84rem;
+}
+.sch .tile small {
+  font-size: 0.7rem;
+  color: var(--mu);
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-height: 1em;
+}
+.sch .tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  border-color: var(--c);
+}
+.sch .tile.on {
+  outline: 3px solid var(--ac);
+  outline-offset: 2px;
+}
+.sch .tile .bd {
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  background: var(--ac);
+  color: #000;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  box-shadow: var(--sh);
+}
+.sch .plus {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px dashed var(--ln);
+  font-size: 1.6rem;
+  line-height: 1;
+  padding: 0;
+  flex: none;
+  color: var(--mu);
+  background: var(--card);
+}
+.sch .plus.req {
+  border-color: var(--ac);
+  color: var(--tx);
+  animation: pulse 1.9s infinite;
+}
+.sch .plus:hover {
+  background: var(--ac);
+  border-style: solid;
+  color: #000;
+  animation: none;
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 121, 0, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 14px rgba(255, 121, 0, 0);
+  }
+}
+#menu {
+  position: fixed;
+  z-index: 40;
+  display: none;
+  width: 310px;
+  max-height: 85vh;
+  overflow: auto;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+#menu button {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--bd);
+  border-radius: 0;
+  font-weight: 500;
+  padding: 9px 12px;
+}
+#menu button:last-child {
+  border-bottom: 0;
+}
+#menu button:hover {
+  background: var(--bg);
+}
+#menu .ic {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+#menu small {
+  color: var(--mu);
+  font-size: 0.75rem;
+}
+#tip {
+  position: fixed;
+  z-index: 50;
+  display: none;
+  background: #0b0f14;
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.78rem;
+  max-width: 310px;
+  white-space: pre-line;
+  pointer-events: none;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+.bh {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.bh .ic {
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+}
+.help {
+  font-size: 0.78rem;
+  color: var(--mu);
+  margin: 6px 0 8px;
+}
+.pn label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--mu);
+  margin: 10px 0 3px;
+}
+.pn label.ck,
+.mem label {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--tx);
+  font-weight: 500;
+  margin: 3px 0;
+}
+.pn input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--ac);
+}
+.tp {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.tp input {
+  width: 98px;
+  min-width: 0;
+}
+.drow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-bottom: 6px;
+}
+.drow .ck {
+  width: 112px;
+}
+.ord {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.ord span,
+.ord select {
+  flex: 1;
+}
+.ord button {
+  padding: 0 8px;
+}
+.pn button.sm {
+  margin-top: 10px;
+  padding: 5px 10px;
+}
+#out {
+  height: 260px;
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+}
+@media (max-width: 900px) {
+  .wrap {
+    flex-direction: column;
+  }
+  #panel {
+    width: 100%;
+    position: static;
+  }
+  .two {
+    grid-template-columns: 1fr;
+  }
+}
+.sch .tile .x {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--ln);
+  color: var(--er);
+  font-size: 0.7rem;
+  line-height: 18px;
+  text-align: center;
+  box-shadow: var(--sh);
+  cursor: pointer;
+}
+.sch .tile .x:hover {
+  background: var(--er);
+  color: #fff;
+  border-color: var(--er);
+}
+#conf {
+  position: fixed;
+  z-index: 45;
+  display: none;
+  width: 240px;
+  background: var(--card);
+  border: 1px solid var(--bd);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  padding: 12px;
+}
+#conf div {
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+#conf button {
+  padding: 5px 10px;
+  margin-right: 6px;
+}
+
+.steps i {
+  font-style: normal;
+  font-size: 0.78rem;
+  height: auto;
+  padding: 7px 4px 6px;
+  text-align: center;
+  background: none;
+  border-radius: 0;
+  border-bottom: 4px solid var(--bd);
+  color: var(--mu);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.steps i.on {
+  background: none;
+  border-bottom-color: var(--ac);
+  color: var(--tx);
+  font-weight: 700;
+}
+.steps i:hover {
+  color: var(--tx);
+}
+input.bad {
+  border-color: var(--er) !important;
+  background: rgba(192, 57, 43, 0.08) !important;
+}
+
+/* nummerreeks */
+.btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.row.rng {
+  grid-template-columns: 1fr 1fr 1fr auto;
+  border-top: 2px solid var(--ac);
+  padding-top: 8px;
+  margin-top: 6px;
+}
+.row .tg {
+  grid-column: 1/-1;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--ac);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: -4px;
+}
+.row .hl {
+  font-size: 0.74rem;
+  color: var(--mu);
+  margin-top: 3px;
+}
+.row .rp {
+  grid-column: 1/-1;
+  font-size: 0.85rem;
+  color: var(--mu);
+  min-height: 1.1em;
+  margin-top: -2px;
+}
+.row .rp.bad {
+  color: var(--er);
+}
+.steps i .sl {
+  white-space: nowrap;
+}
+
+/* ronde 3 */
+select option {
+  background: var(--card);
+  color: var(--tx);
+}
+select option:disabled {
+  color: var(--mu);
+}
+.wrap {
+  display: block;
+}
+.cv {
+  min-height: 320px;
+}
+#pback {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+}
+#pback.open {
+  display: block;
+}
+#panel {
+  position: fixed;
+  z-index: 60;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(700px, calc(100vw - 24px));
+  max-height: 88vh;
+  overflow-y: auto;
+  display: none;
+  padding: 16px 22px 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border-radius: 14px;
+  flex: none;
+}
+#panel.open {
+  display: block;
+}
+.pn .bh .cl {
+  margin-left: auto;
+  padding: 4px 10px;
+  min-height: 0;
+  border: 1px solid var(--bd);
+  background: var(--card);
+  color: var(--tx);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.pn .done {
+  margin-top: 18px;
+  width: 100%;
+  padding: 10px;
+}
+#menu .mh {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--bd);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+}
+#menu .mh button.cl {
+  width: auto;
+  min-height: 0;
+  padding: 3px 10px;
+  border: 1px solid var(--bd);
+  border-radius: 8px;
+  background: var(--card);
+}
+#menu {
+  overflow-y: auto;
+}
+.pn .drow {
+  gap: 6px 12px;
+  margin: 0;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--bd);
+}
+.pn .drow:last-child {
+  border-bottom: 0;
+}
+.pn .drow .ck {
+  width: 104px;
+  flex: none;
+  margin: 0;
+}
+.pn .tp input {
+  width: 92px;
+  padding: 5px 6px;
+}
+.pn .tp {
+  gap: 6px;
+}
+/* keuzelijst voor het nummer van de call-flow */
+.pickbox {
+  margin-bottom: 14px;
+}
+.pickbox label {
+  font-weight: 700;
+}
+.pickbox select {
+  width: 100%;
+  max-width: 560px;
+  margin-top: 4px;
+}
+.pickbox select.ask {
+  border: 2px solid var(--ac);
+}
+.pickbox .mu {
+  margin-top: 6px;
+  font-size: 0.85rem;
+}
+.st .p {
+  margin-top: 10px;
+}
+/* mobiel */
+@media (max-width: 700px) {
+  main {
+    padding: 14px 10px 40px;
+  }
+  .in {
+    padding: 0 10px;
+  }
+  .card {
+    padding: 14px 12px;
+  }
+  .top h1 {
+    font-size: 1.4rem;
+  }
+  .logo {
+    height: 56px;
+  }
+  h2 {
+    font-size: 1.05rem;
+  }
+  .steps {
+    gap: 2px;
+  }
+  .steps i {
+    font-size: 0.7rem;
+    padding: 8px 2px 6px;
+  }
+  .steps i:not(.cur) .sl {
+    display: none;
+  }
+  .steps i.cur {
+    flex: 4;
+  }
+  button,
+  .sch button,
+  #menu button {
+    min-height: 44px;
+  }
+  .nav button {
+    flex: 1;
+  }
+  .btns button {
+    flex: 1 1 100%;
+  }
+  .row.rng {
+    grid-template-columns: 1fr 1fr;
+  }
+  .row.rng .n2 {
+    grid-column: 1/-1;
+  }
+  .row.rng .x {
+    grid-column: 1/-1;
+    justify-self: start;
+  }
+  .row .x {
+    min-width: 44px;
+  }
+  /* nummerplan als kaarten */
+  .tw {
+    overflow: visible;
+    margin-bottom: 8px;
+  }
+  table.np,
+  .np tbody {
+    display: block;
+    min-width: 0 !important;
+    width: 100%;
+    border: 0;
+    background: none;
+  }
+  .np thead {
+    display: none;
+  }
+  .np tr {
+    display: block;
+    border: 1px solid var(--bd);
+    background: var(--card);
+    margin-bottom: 12px;
+    padding: 4px 12px 12px;
+    border-left: 3px solid var(--ac);
+  }
+  .np td {
+    display: block;
+    border: 0 !important;
+    padding: 0;
+    text-align: left !important;
+    background: none !important;
+  }
+  .np td:before {
+    content: attr(data-l);
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin: 10px 0 3px;
+    color: var(--mu);
+  }
+  .np td input:not([type="checkbox"]),
+  .np td select {
+    border: 1px solid var(--mu) !important;
+    background: var(--bg) !important;
+    height: 46px;
+    width: 100%;
+  }
+  .np td:nth-child(5),
+  .np td:nth-child(6) {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 10px 22px 0 0;
+  }
+  .np td:nth-child(5):before,
+  .np td:nth-child(6):before {
+    margin: 0;
+    color: var(--tx);
+    font-size: 0.9rem;
+  }
+  .np td input[type="checkbox"] {
+    width: 26px;
+    height: 26px;
+  }
+  .np td button.x {
+    border: 1px solid var(--bd) !important;
+    margin-top: 12px;
+    width: auto;
+    padding: 8px 14px;
+  }
+  .np td button.x:after {
+    content: " Rij leegmaken";
+    font-weight: 500;
+  }
+  /* call-flow */
+  .cv {
+    padding: 14px 8px;
+  }
+  .sch .tile {
+    width: 104px;
+    height: 96px;
+  }
+  .sch .tile .ic {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+  .sch .tile b {
+    font-size: 0.78rem;
+  }
+  .sch .tile small {
+    max-width: 92px;
+  }
+  .sch .tile .x {
+    width: 28px;
+    height: 28px;
+    line-height: 26px;
+    top: -10px;
+    right: -10px;
+    font-size: 0.8rem;
+  }
+  .kids {
+    margin-left: 20px;
+  }
+  .kids:before {
+    left: -20px;
+    width: 20px;
+  }
+  .kid {
+    padding-left: 20px;
+  }
+  .kid:before {
+    width: 20px;
+  }
+  .lab {
+    max-width: 96px;
+    font-size: 0.66rem;
+    padding: 3px 7px;
+    margin-right: 6px;
+  }
+  .sch .plus {
+    width: 52px;
+    height: 52px;
+  }
+  #panel {
+    padding: 12px 14px;
+    width: calc(100vw - 16px);
+    max-height: 92vh;
+  }
+  .drow .ck {
+    width: auto;
+    min-width: 96px;
+  }
+  #menu {
+    left: 8px !important;
+    right: 8px;
+    width: auto;
+    top: auto !important;
+    bottom: 8px;
+    max-height: 75vh;
+    overflow-y: auto;
+  }
+  #conf {
+    left: 50% !important;
+    top: 35% !important;
+    transform: translateX(-50%);
+    width: calc(100% - 40px);
+    max-width: 300px;
+  }
+  #tip {
+    display: none !important;
+  }
+  .sum table {
+    font-size: 0.8rem;
+  }
+}
+/* Link-knop in de voettekst */
+.lnk{background:none;border:0;color:var(--mu);text-decoration:underline;cursor:pointer;padding:6px 0;font:inherit;font-size:.85rem;min-height:0}
+.lnk:hover{color:var(--tx)}
+/* Melding als bestanden van verschillende versies door elkaar staan */
+.verwarn {
+  background: var(--ac);
+  color: #000;
+  padding: 10px 14px;
+  font-weight: 600;
+  text-align: center;
+}
+.ver {
+  color: var(--mu);
+  font-size: 0.75rem;
+  margin-left: 10px;
+}
+/* Taalkeuze rechtsboven */
+.top .in {
+  position: relative;
+}
+.lang {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+}
+.lang button {
+  min-height: 0;
+  padding: 4px 12px;
+  border: 1px solid var(--ac);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.lang button:first-child {
+  border-radius: 8px 0 0 8px;
+}
+.lang button:last-child {
+  border-radius: 0 8px 8px 0;
+  border-left: 0;
+}
+.lang button.on {
+  background: var(--ac);
+  color: #000;
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><div class="lang" role="group" aria-label="Taal / Langue"><button type="button" id="lang-nl" lang="nl" title="Nederlands">NL</button><button type="button" id="lang-fr" lang="fr" title="Français">FR</button></div><img class="logo" alt="Orange Business"><h1>Cloud Telephony – configuratie</h1><p>Vul de gegevens stap voor stap in. Op het einde maakt u een PDF-verslag.</p></div></header>
+<main>
+<div class="steps" id="bar"><i>1<span class="sl"> Klant</span></i><i>2<span class="sl"> Nummers</span></i><i>3<span class="sl"> Randapparatuur</span></i><i>4<span class="sl"> Nummerplan</span></i><i>5<span class="sl"> Call-flow</span></i><i>6<span class="sl"> Overzicht</span></i></div>
+<div class="card">
+
+<section class="step" data-s="0">
+<h2>1. Klantgegevens</h2>
+<label>Bedrijfsnaam *</label><input id="bedrijf" autocomplete="organization">
+<label>Adres *</label><input id="adres" autocomplete="street-address">
+<label>Contactpersoon *</label><input id="contact" autocomplete="name">
+</section>
+
+<section class="step" data-s="1">
+<h2>2. Gebruikte telefoonnummers</h2>
+<p class="sub">Geef alle nummers in die momenteel in gebruik zijn. Hebt u een reeks opeenvolgende nummers (bv. 02 334 88 40 tot 49)? Gebruik dan <b>+ Nummerreeks toevoegen</b>.</p>
+<div id="nrs"></div>
+<div class="btns"><button type="button" id="addNr">+ Nummer toevoegen</button><button type="button" id="addRg">+ Nummerreeks toevoegen</button></div>
+</section>
+
+<section class="step" data-s="2">
+<h2>3. Randapparatuur</h2>
+<div class="blk"><b>Fax</b>
+<label>Fax aanwezig?</label><select id="fax"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="fax=Ja">
+<label>Faxnummer *</label><select id="faxSel" class="nrsel" data-for="faxNr"></select><input id="faxNr" class="be" inputmode="tel" placeholder="bv. 02 334 88 44" style="display:none;margin-top:6px">
+<label>Hoe is de fax aangesloten? *</label>
+<select id="faxHoe"><option value="">– kies –</option><option>Analoge lijn</option><option>Fax2mail</option><option>Andere</option></select>
+<div class="cond" data-if="faxHoe=Fax2mail"><label>E-mailadres waarnaar de faxen worden verstuurd *</label><input id="faxMail" type="email"></div>
+<div class="cond" data-if="faxHoe=Andere"><label>Toelichting *</label><input id="faxAnd"></div>
+</div></div>
+<div class="blk"><b>Parlofoon</b>
+<label>Parlofoon aanwezig?</label><select id="parlo"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="parlo=Ja">
+<label>Gekoppeld met de PBX?</label><select id="parloPbx"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="parloPbx=Ja">
+<label>Type koppeling *</label><select id="parloType"><option value="">– kies –</option><option>Analoog</option><option>IP</option><option>Andere</option></select>
+<div class="cond" data-if="parloType=Andere"><label>Toelichting *</label><input id="parloAnd"></div>
+<label>Model *</label><input id="parloModel">
+</div></div></div>
+<div class="blk"><b>Alarm</b>
+<label>Alarm aanwezig?</label><select id="alarm"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="alarm=Ja">
+<label>Werking alarm *</label><select id="alarmHoe"><option value="">– kies –</option><option>Analoge lijn</option><option>Netwerk</option><option>SIM</option><option>Andere</option></select>
+<div class="cond" data-if="alarmHoe=Analoge lijn"><label>Welk nummer? *</label><select id="alarmSel" class="nrsel" data-for="alarmNr"></select><input id="alarmNr" class="be" inputmode="tel" placeholder="bv. 02 334 88 44" style="display:none;margin-top:6px"></div>
+<div class="cond" data-if="alarmHoe=Andere"><label>Toelichting *</label><input id="alarmAnd"></div>
+</div></div>
+</section>
+
+<section class="step" data-s="3">
+<h2>4. Nummerplan</h2>
+<p class="sub">Maximaal 3 gebruikers. Laat een rij leeg als ze niet nodig is. Zodra u een veld invult, moeten de verplichte velden van die rij ingevuld zijn en moet minstens PC of GSM aangeduid zijn. U kan ook cellen uit Excel plakken (zelfde kolomvolgorde) en navigeren met de pijltjestoetsen, Tab en Enter.</p>
+<div class="tw"><table class="np"><thead><tr><th>Intern *</th><th>Rechtstreeks (optioneel)</th><th>Voornaam *</th><th>Familienaam *</th><th>PC</th><th>GSM</th><th>GSM-nummer</th><th>E-mail *</th><th></th></tr></thead><tbody id="ppl"></tbody></table></div>
+<button type="button" id="addP" style="display:none">+ Gebruiker toevoegen</button>
+</section>
+<section class="step" data-s="4"><div class="sch">
+<h2>5. Call-flow</h2>
+<p class="sub">Kies in de lijst het nummer waarvoor u iets wil instellen en bouw dan op wat er gebeurt wanneer iemand dat nummer belt. Een call-flow instellen is optioneel: nummers waarvoor u niets instelt, blijven zoals ze zijn. Klik op een <b>+</b> om een stap toe te voegen en op een blok om de instellingen te openen. Houd uw muis boven een blok of knop voor meer uitleg.</p>
+<div class="pickbox" id="pick"><label for="selNr">Voor welk nummer wilt u een call-flow instellen?</label><select id="selNr"></select><div class="mu" id="pickInfo"></div></div><div class="st" id="st"></div><p class="sub" id="fNone"></p>
+<div class="wrap" id="fWrap"><div class="cv"><div id="tree"></div></div><div id="panel" class="pn"></div></div>
+<div class="tools" id="fTools" style="margin-top:12px"><button type="button" id="bNew">Opnieuw beginnen voor dit nummer</button></div>
+</div></section>
+
+<section class="step" data-s="5">
+<h2>6. Overzicht</h2>
+<div class="sum" id="sum"></div>
+<button type="button" class="p" id="pdf">PDF-verslag downloaden</button>
+<div class="err" id="pdfMsg"></div>
+</section>
+
+<div class="err" id="err"></div>
+<div class="nav"><button type="button" id="prev">← Vorige</button><button type="button" class="p" id="next">Volgende →</button></div>
+</div>
+</main>
+<footer><div class="in">Alle gegevens blijven in uw browser; het PDF-verslag wordt lokaal aangemaakt. Uw invoer wordt enkel in dit tabblad bewaard en verdwijnt wanneer u het tabblad sluit.<br><button type="button" class="lnk" id="wipe">Alle gegevens wissen en opnieuw beginnen</button> <span class="mu" id="ver"></span></div></footer>
+<div id="pback"></div><div id="menu"></div><div id="conf"></div><div id="tip"></div>
+<script>
+// Logo (Orange Business) als data-URI: wordt in de koptekst getoond en in het PDF-verslag gebruikt.
+// Vervangen? Zet een nieuwe JPEG om naar base64 en plak ze hieronder (data:image/jpeg;base64,...).
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["00-logo.js"] = "2026-10-21.1";
+var LOGO_DATA = "data:image/jpeg;base64,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4Ir6hb6b+3HYS3Vxb2sI0e9BeaRY15ReMsQK+S6VWKngkfSvH4gylZpllfLXLl9rCUb2vbmVr2ur29UetkOaPLcxo5go83s5KVr2vZ3tfW33H9SfhD/goTqPg/wxplgmoeBNQvtBga10nV73yZb/AEyI8bY33dAOBkHFclqn7U7av4D0Xw/N4h8P/ZtB1OXV7a4F3F9oa5kcuzM27n5jnpX8zXnN/eb86POb+8351+L1vBPMK1NUambzcVHlt7Pp7unx6/DHV62ileyR+xUfGbA0qjq08qgpOXNfn6+9r8GnxS0WnvN2u2f1J+J/+ChN54q07xFBJN8OrWbxbafZNXu7WOGO5vhgKHZ9+dwAwB09qzof2572D4qw+Ml1jwj/AGxb6T/YyqZ4/JMHl+Xyu/723vX8vvnN/eb86POb+8351tW8G80qzVSecTbTTT9mt020/j3vKT9W31MaPi9l1KDp08pgk04tc71TSTXwbWilbskuh/W5+zd+2d4B8A+CPCbaz8TvD+/wu8jNp95pEV1fQoSSYbS5D4VG4yW5GcDFeY237dkOnXesQbvAmuaLeazPrNhZa0Ybr+zJpHLbozu4PQkcgnNfy4+fJ/fb86POf+83516OI8KswqYejhqeZOCpKyaptuXuxj73NVkrWitElHS9tFbgw/ijgaeIrYmpl6m6ju05pJe85e7y04u95PVtys7X1d/6Rte+LGl+K/Et5ql3rXh5brUJmnlEFxBDGGbk7UUgKPYV/Oh8RWDfEHXipDKdRuCCDkH941ZHnP8A3m/Om17Xh54b/wCq9XE1niXWdflvePLZxcnf4pXvzHjcfeIj4lpYel9XVFUea1pX0airfCrW5Qooor9PPzUKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA//9k=";
+document.querySelector(".logo").src = LOGO_DATA;
+</script>
+<script>
+/*
+ * Taalkeuze (NL / FR) en vertaalfunctie tx().
+ *
+ * Alle zichtbare tekst in de code staat als Nederlandse tekst in tx("..."). Bij Frans wordt de tekst opgezocht in
+ * de woordenlijst FR (js/02-i18n-fr.js). Is er geen vertaling, dan blijft de Nederlandse tekst staan.
+ * Variabele delen staan als {0}, {1}, ... en worden door de extra argumenten vervangen:
+ *     tx("Nummer {0}: {1}", nr, melding)
+ *
+ * De taal wordt bepaald door (in deze volgorde): ?lang=nl of ?lang=fr in de link, de laatst gekozen taal in de
+ * browser en de taal van de browser. Bij wisselen wordt de invoer bewaard en de pagina opnieuw geladen.
+ */
+window.VER = window.VER || {};
+window.VER["01-i18n.js"] = "2026-10-21.1";
+
+var LANG = (function () {
+  var q = /[?&]lang=(nl|fr)\b/.exec(location.search),
+    v = q ? q[1] : "";
+  try {
+    v = v || sessionStorage.getItem("ctcfg-lang") || localStorage.getItem("ctcfg-lang");
+  } catch (e) {
+    /* opslag niet beschikbaar: de taal van de browser wordt gebruikt */
+  }
+  if (v !== "nl" && v !== "fr") v = /^fr/i.test(navigator.language || "") ? "fr" : "nl";
+  return v;
+})();
+
+var FR = {}; // woordenlijst Nederlands -> Frans (wordt gevuld in js/02-i18n-fr.js)
+
+// Vertaalt een tekst en vult de plaatsen {0}, {1}, ... met de extra argumenten.
+function tx(s) {
+  if (typeof s !== "string") return s;
+  var r = LANG === "fr" && Object.prototype.hasOwnProperty.call(FR, s) ? FR[s] : s,
+    a = arguments;
+  return r.replace(/\{(\d+)\}/g, function (m, i) {
+    return +i + 1 < a.length ? String(a[+i + 1]) : m;
+  });
+}
+
+// Wisselt van taal: invoer bewaren, taalkeuze onthouden en de pagina opnieuw laden.
+function setLang(l) {
+  if (l === LANG) return;
+  var ok = false;
+  try {
+    sessionStorage.setItem("ctcfg-lang", l);
+    ok = sessionStorage.getItem("ctcfg-lang") === l;
+  } catch (e) {
+    /* negeren */
+  }
+  try {
+    localStorage.setItem("ctcfg-lang", l);
+  } catch (e) {
+    /* negeren */
+  }
+  if (typeof saveState === "function") saveState();
+  if (!ok) {
+    // zonder opslag in de browser: taal meegeven in de link (de invoer gaat dan verloren)
+    location.href = location.pathname + "?lang=" + l;
+    return;
+  }
+  if (/[?&]lang=/.test(location.search)) {
+    try {
+      history.replaceState(null, "", location.pathname + location.hash); // de taal uit de link mag de keuze niet blokkeren
+    } catch (e) {
+      /* negeren */
+    }
+  }
+  location.reload();
+}
+
+// Taalknoppen rechtsboven.
+["nl", "fr"].forEach(function (l) {
+  var b = document.getElementById("lang-" + l);
+  if (!b) return;
+  b.classList.toggle("on", l === LANG);
+  b.setAttribute("aria-pressed", l === LANG ? "true" : "false");
+  b.onclick = function () {
+    setLang(l);
+  };
+});
+</script>
+<script>
+// Franse woordenlijst en vertaling van de vaste tekst van index.html.
+window.VER = window.VER || {};
+window.VER["02-i18n-fr.js"] = "2026-10-21.1";
+
+// Sleutel = de Nederlandse tekst zoals die in de code of in index.html staat; waarde = de Franse tekst.
+// {0}, {1}, ... zijn variabele delen en moeten in de vertaling blijven staan.
+FR = {
+  "Geef het eerste en het laatste nummer in. Bij het laatste nummer volstaan de laatste cijfers (bv. 49).": "Indiquez le premier et le dernier numéro. Pour le dernier numéro, les derniers chiffres suffisent (p. ex. 49).",
+  "<div class=\"tg\">Nummerreeks</div><div><label>Eerste nummer</label><input class=\"rf be\" inputmode=\"tel\" placeholder=\"bv. 02 334 88 40\"></div><div><label>Laatste nummer</label><input class=\"rt\" inputmode=\"tel\" placeholder=\"bv. 49\"></div><div class=\"n2\"><label>Omschrijving (optioneel)</label><input class=\"nd\"></div><button type=\"button\" class=\"x\" title=\"Verwijderen\">✕</button><div class=\"rp\">{0}</div><input class=\"nr\" type=\"hidden\">": "<div class=\"tg\">Série de numéros</div><div><label>Premier numéro</label><input class=\"rf be\" inputmode=\"tel\" placeholder=\"p. ex. 02 334 88 40\"></div><div><label>Dernier numéro</label><input class=\"rt\" inputmode=\"tel\" placeholder=\"p. ex. 49\"></div><div class=\"n2\"><label>Description (facultatif)</label><input class=\"nd\"></div><button type=\"button\" class=\"x\" title=\"Supprimer\">✕</button><div class=\"rp\">{0}</div><input class=\"nr\" type=\"hidden\">",
+  "<div><label>Telefoonnummer</label><input class=\"nr be\" data-range=\"1\" inputmode=\"tel\" placeholder=\"bv. 02 334 88 44\"></div><div class=\"n2\"><label>Omschrijving (optioneel)</label><input class=\"nd\"></div><button type=\"button\" class=\"x\" title=\"Verwijderen\">✕</button>": "<div><label>Numéro de téléphone</label><input class=\"nr be\" data-range=\"1\" inputmode=\"tel\" placeholder=\"p. ex. 02 334 88 44\"></div><div class=\"n2\"><label>Description (facultatif)</label><input class=\"nd\"></div><button type=\"button\" class=\"x\" title=\"Supprimer\">✕</button>",
+  "✔ {0} · {1} nummers": "✔ {0} · {1} numéros",
+  "✖ Ongeldige reeks: het eerste nummer moet lager zijn dan het laatste, in dezelfde zone, met maximaal 1000 nummers.": "✖ Série non valide : le premier numéro doit être inférieur au dernier, dans la même zone, avec 1000 numéros au maximum.",
+  "Vul ook het {0} nummer in.": "Indiquez aussi le {0} numéro.",
+  "laatste": "dernier",
+  "eerste": "premier",
+  "Rij leegmaken": "Vider la ligne",
+  "– geen –": "– aucun –",
+  " (reeds gebruikt)": " (déjà utilisé)",
+  "Nummer": "Numéro",
+  "Openingsuren": "Heures d’ouverture",
+  "Groep": "Groupe",
+  "Keuzemenu": "Menu vocal",
+  "Forward naar een nummer": "Renvoi vers un numéro",
+  "Boodschap afspelen": "Diffuser un message",
+  "Keuzemenu herhalen": "Répéter le menu vocal",
+  "Voicemail": "Messagerie vocale",
+  "Inhaken": "Raccrocher",
+  "Forward": "Renvoi",
+  "Boodschap": "Message",
+  "Herhaal menu": "Répéter le menu",
+  "Het telefoonnummer waarvoor u de call-flow instelt.": "Le numéro de téléphone pour lequel vous configurez le call-flow.",
+  "Bepaal wanneer u bereikbaar bent. Tijdens en buiten de openingsuren volgt een andere stap.": "Définissez quand vous êtes joignable. Pendant et en dehors des heures d’ouverture, une autre étape suit.",
+  "Laat meerdere collega's tegelijk of na elkaar rinkelen.": "Faites sonner plusieurs collègues en même temps ou l’un après l’autre.",
+  "De beller kiest met een toets, bijvoorbeeld 1 voor verkoop.": "L’appelant choisit avec une touche, par exemple 1 pour les ventes.",
+  "Schakel de oproep door naar een nummer: een interne gebruiker of een van uw ingevulde nummers, of een extern nummer, bijvoorbeeld een GSM.": "Transférez l’appel vers un numéro : un utilisateur interne ou l’un de vos numéros saisis, ou un numéro externe, par exemple un GSM.",
+  "Speel een opgenomen boodschap af. Kies daarna altijd wat er gebeurt, bijvoorbeeld inhaken, voicemail of een groep.": "Diffusez un message enregistré. Choisissez ensuite toujours la suite, par exemple raccrocher, messagerie vocale ou un groupe.",
+  "De beller hoort het keuzemenu opnieuw.": "L’appelant entend à nouveau le menu vocal.",
+  "De beller kan een bericht inspreken. U kiest wie de voicemailberichten ontvangt.": "L’appelant peut laisser un message. Vous choisissez qui reçoit les messages vocaux.",
+  "Het gesprek wordt beëindigd.": "La communication est terminée.",
+  "Maandag": "Lundi",
+  "Dinsdag": "Mardi",
+  "Woensdag": "Mercredi",
+  "Donderdag": "Jeudi",
+  "Vrijdag": "Vendredi",
+  "Zaterdag": "Samedi",
+  "Zondag": "Dimanche",
+  "intern nummer {0}": "numéro interne {0}",
+  "extern nummer {0}": "numéro externe {0}",
+  "nummer (nog te kiezen)": "numéro (à choisir)",
+  "Als iemand belt": "Quand quelqu’un appelle",
+  "Altijd bereikbaar": "Toujours joignable",
+  "Tijdens de openingsuren": "Pendant les heures d’ouverture",
+  "Buiten de openingsuren": "En dehors des heures d’ouverture",
+  "Tijdens de middagpauze": "Pendant la pause de midi",
+  "Als niemand opneemt": "Si personne ne répond",
+  "Daarna": "Ensuite",
+  "Als de beller niets indrukt": "Si l’appelant n’appuie sur rien",
+  "Toets {0}": "Touche {0}",
+  "tot": "à",
+  "<option value=\"\">– kies –</option>": "<option value=\"\">– choisir –</option>",
+  "Telefoonnummer (wijzig via de lijst boven het schema)": "Numéro de téléphone (à modifier via la liste au-dessus du schéma)",
+  "Kopieer de call-flow van een ander nummer": "Copier le call-flow d’un autre numéro",
+  "Kopiëren": "Copier",
+  "Zeker? Dit overschrijft het huidige schema": "Sûr ? Cela écrase le schéma actuel",
+  "Altijd open (geen openingsuren)": "Toujours ouvert (pas d’heures d’ouverture)",
+  "Openingsuren instellen": "Définir les heures d’ouverture",
+  "Wanneer bent u bereikbaar?": "Quand êtes-vous joignable ?",
+  "Toepassen op alle open dagen": "Appliquer à tous les jours ouverts",
+  "Snel invullen: dezelfde uren voor alle open dagen": "Remplissage rapide : mêmes heures pour tous les jours ouverts",
+  "gesloten": "fermé",
+  "Middagpauze": "Pause de midi",
+  "Uren per dag (vink een dag af als u dan gesloten bent)": "Heures par jour (décochez un jour s’il est fermé)",
+  "Bijvoorbeeld Verkoop of Onthaal": "Par exemple Ventes ou Accueil",
+  "Naam van de groep *": "Nom du groupe *",
+  "Wie moet er rinkelen?": "Qui doit faire sonner son téléphone ?",
+  "Allemaal tegelijk": "Tous en même temps",
+  "Eén voor één, in volgorde": "Un par un, dans l’ordre",
+  "Hoe moeten de toestellen rinkelen?": "Comment les téléphones doivent-ils sonner ?",
+  "In welke volgorde?": "Dans quel ordre ?",
+  "Nee": "Non",
+  "Ja": "Oui",
+  "Wachtboodschap afspelen terwijl de beller wacht?": "Diffuser un message d’attente pendant que l’appelant patiente ?",
+  "Geen keuze (de beller drukt niets in)": "Aucun choix (l’appelant n’appuie sur rien)",
+  "Toets verwijderen": "Supprimer la touche",
+  "Toetsen van het menu": "Touches du menu",
+  "Wilt u iets laten gebeuren wanneer de beller niets indrukt? Voeg dan een toets toe en kies ‘Geen keuze’.": "Voulez-vous qu’il se passe quelque chose quand l’appelant n’appuie sur rien ? Ajoutez alors une touche et choisissez « Aucun choix ».",
+  "+ Toets toevoegen": "+ Ajouter une touche",
+  "<option value=\"\">– kies –</option><option value=\"intern\">Intern (een gebruiker of een ingevuld nummer)</option><option value=\"extern\">Extern (een ander nummer, bv. een GSM)</option>": "<option value=\"\">– choisir –</option><option value=\"intern\">Interne (un utilisateur ou un numéro saisi)</option><option value=\"extern\">Externe (un autre numéro, p. ex. un GSM)</option>",
+  "Naar welk soort nummer?": "Vers quel type de numéro ?",
+  "<option value=\"\">– kies –</option>{0}{1}": "<option value=\"\">– choisir –</option>{0}{1}",
+  "Welk intern nummer?": "Quel numéro interne ?",
+  "Bijvoorbeeld 0470 12 34 56": "Par exemple 0470 12 34 56",
+  "Welk extern nummer?": "Quel numéro externe ?",
+  "Wie ontvangt de voicemailberichten? (meerdere mogelijk)": "Qui reçoit les messages vocaux ? (plusieurs possibles)",
+  "Dit blok heeft geen instellingen. Kies rechts van het blok altijd wat er daarna gebeurt, bijvoorbeeld inhaken, voicemail of een groep.": "Ce bloc n’a pas de paramètres. Choisissez à droite du bloc ce qui se passe ensuite, par exemple raccrocher, messagerie vocale ou un groupe.",
+  "Dit blok heeft geen instellingen. Het gesprek wordt beëindigd.": "Ce bloc n’a pas de paramètres. La communication est terminée.",
+  "kies nummer": "choisir un numéro",
+  "altijd open": "toujours ouvert",
+  "uren per dag": "heures par jour",
+  "naam ontbreekt": "nom manquant",
+  "{0} toetsen": "{0} touches",
+  "{0} gebruikers": "{0} utilisateurs",
+  "Kies een telefoonnummer": "Choisissez un numéro de téléphone",
+  "Groep: geef de groep een naam": "Groupe : donnez un nom au groupe",
+  "Groep: kies wie er moet rinkelen": "Groupe : choisissez qui doit faire sonner son téléphone",
+  "Forward: kies intern of extern": "Renvoi : choisissez interne ou externe",
+  "Forward: kies het interne nummer": "Renvoi : choisissez le numéro interne",
+  "Forward: vul het externe nummer in": "Renvoi : indiquez le numéro externe",
+  "Forward: het externe nummer is niet geldig": "Renvoi : le numéro externe n’est pas valide",
+  "Voicemail: kies wie de berichten ontvangt": "Messagerie vocale : choisissez qui reçoit les messages",
+  "Keuzemenu: voeg minstens één toets toe": "Menu vocal : ajoutez au moins une touche",
+  "Keuzemenu: {0} komt meer dan één keer voor": "Menu vocal : {0} apparaît plus d’une fois",
+  "‘Geen keuze’": "« Aucun choix »",
+  "toets {0}": "touche {0}",
+  "Openingsuren: vink minstens één dag aan": "Heures d’ouverture : cochez au moins un jour",
+  "Openingsuren {0}: het einduur moet na het beginuur liggen": "Heures d’ouverture {0} : l’heure de fin doit être postérieure à l’heure de début",
+  "Middagpauze {0}: de pauze moet binnen de openingsuren vallen": "Pause de midi {0} : la pause doit se situer dans les heures d’ouverture",
+  "{0}: nog niet ingesteld – {1}": "{0} : pas encore configuré – {1}",
+  " (middagpauze {0}–{1})": " (pause de midi {0}–{1})",
+  " tot {0}": " au {0}",
+  "Nummer {0}": "Numéro {0}",
+  "Openingsuren: altijd open": "Heures d’ouverture : toujours ouvert",
+  "Openingsuren:\n{0}": "Heures d’ouverture :\n{0}",
+  "Groep \"{0}\"\nRinkelen: {1}\n{2}{3}\nWachtboodschap: {4}": "Groupe « {0} »\nSonnerie : {1}\n{2}{3}\nMessage d’attente : {4}",
+  "één voor één, in volgorde": "un par un, dans l’ordre",
+  "allemaal tegelijk": "tous en même temps",
+  "Leden (in volgorde): ": "Membres (dans l’ordre) : ",
+  "Leden: ": "Membres : ",
+  "geen leden": "aucun membre",
+  "Keuzemenu ({0} toetsen)": "Menu vocal ({0} touches)",
+  "Forward naar {0}": "Renvoi vers {0}",
+  "Voicemail naar: {0}": "Messagerie vocale pour : {0}",
+  "Inhaken (gesprek beëindigen)": "Raccrocher (terminer la communication)",
+  "{0}  {1} > (leeg)": "{0}  {1} > (vide)",
+  "<div>Dit blok en alle stappen erna verwijderen?</div>": "<div>Supprimer ce bloc et toutes les étapes suivantes ?</div>",
+  "Verwijderen": "Supprimer",
+  "Annuleren": "Annuler",
+  "{0}\n{1}\n\n{2}{3}\n\n(klik om de instellingen te openen)": "{0}\n{1}\n\n{2}{3}\n\n(cliquez pour ouvrir les paramètres)",
+  "Blok verwijderen": "Supprimer le bloc",
+  "Stap toevoegen: {0}{1}": "Ajouter une étape : {0}{1}",
+  " (optioneel; zonder stap eindigt het gesprek hier)": " (facultatif ; sans étape, la communication se termine ici)",
+  "<b>Kies de volgende stap</b>": "<b>Choisissez l’étape suivante</b>",
+  "Sluiten": "Fermer",
+  "Klaar": "Terminé",
+  "{0}<div class=\"mu\">{1} van {2} nummers hebben een volledige call-flow</div>": "{0}<div class=\"mu\">Call-flow complet pour {1} numéro(s) sur {2}</div>",
+  "<b>Nog geen call-flow ingesteld voor {0}.</b> Dit is optioneel: klik op de + om er een op te bouwen.": "<b>Aucun call-flow configuré pour {0}.</b> C’est facultatif : cliquez sur le + pour en créer un.",
+  "<b>Nog in te vullen voor {0}:</b><ul>{1}</ul>": "<b>Reste à compléter pour {0} :</b><ul>{1}</ul>",
+  "<b>✔ De call-flow van {0} is volledig.</b>": "<b>✔ Le call-flow de {0} est complet.</b>",
+  "+ Call-flow voor een ander nummer instellen": "+ Configurer un call-flow pour un autre numéro",
+  "<option value=\"\">– kies een nummer –</option>{0}": "<option value=\"\">– choisir un numéro –</option>{0}",
+  "⚠ nog niet volledig": "⚠ pas encore complet",
+  "✔ call-flow volledig": "✔ call-flow complet",
+  "{0}Een call-flow instellen is optioneel: nummers waarvoor u niets instelt, blijven zoals ze zijn.": "{0}Configurer un call-flow est facultatif : les numéros pour lesquels vous ne configurez rien restent tels quels.",
+  "Kies eerst een nummer. ": "Choisissez d’abord un numéro. ",
+  "Geen geldig Belgisch GSM-nummer": "Numéro GSM belge non valide",
+  "Geen geldig Belgisch telefoonnummer": "Numéro de téléphone belge non valide",
+  "<option value=\"\">– kies een nummer uit uw lijst –</option>{0}<option value=\"__other\">Ander nummer…</option>": "<option value=\"\">– choisir un numéro de votre liste –</option>{0}<option value=\"__other\">Autre numéro…</option>",
+  "(gebruiker verwijderd)": "(utilisateur supprimé)",
+  "Alle ingegeven nummers zijn het rechtstreeks nummer van een gebruiker: er is geen call-flow in te stellen.": "Tous les numéros saisis sont le numéro direct d’un utilisateur : il n’y a pas de call-flow à configurer.",
+  "Opnieuw beginnen voor dit nummer": "Recommencer pour ce numéro",
+  "Zeker? Dit wist het schema van dit nummer": "Sûr ? Cela efface le schéma de ce numéro",
+  "Ja – nr. {0}, {1}": "Oui – n° {0}, {1}",
+  " (naar {0})": " (vers {0})",
+  "Ja – gekoppeld met PBX, {0}, model: {1}": "Oui – couplé au PBX, {0}, modèle : {1}",
+  "andere: {0}": "autre : {0}",
+  "Ja – niet gekoppeld met PBX": "Oui – non couplé au PBX",
+  "Ja – {0}": "Oui – {0}",
+  " (nr. {0})": " (n° {0})",
+  "Fax": "Fax",
+  "Parlofoon": "Parlophone",
+  "Alarm": "Alarme",
+  "Rechtstreeks nummer van {0}": "Numéro direct de {0}",
+  "Niet ingesteld": "Non configuré",
+  "Overige nummers van de reeks ({0}): niet ingesteld": "Autres numéros de la série ({0}) : non configurés",
+  "Vul bedrijfsnaam, adres en contactpersoon in.": "Remplissez le nom de l’entreprise, l’adresse et la personne de contact.",
+  "reeks {0} - {1}": "série {0} - {1}",
+  "Geen geldig Belgisch telefoonnummer: {0} (bijvoorbeeld 02 334 88 44, 015 45 18 25 of een reeks 02 334 88 40 – 49; een reeks telt maximaal 1000 nummers).": "Numéro de téléphone belge non valide : {0} (par exemple 02 334 88 44, 015 45 18 25 ou une série 02 334 88 40 – 49 ; une série compte 1000 numéros au maximum).",
+  "Geef minstens één telefoonnummer in.": "Indiquez au moins un numéro de téléphone.",
+  "Beantwoord alle vragen over de randapparatuur.": "Répondez à toutes les questions sur les équipements périphériques.",
+  "Vul alle verplichte velden bij de randapparatuur in.": "Remplissez tous les champs obligatoires des équipements périphériques.",
+  "Geen geldig Belgisch telefoonnummer bij {0} (bijvoorbeeld 02 334 88 44).": "Numéro de téléphone belge non valide pour {0} (par exemple 02 334 88 44).",
+  "de fax": "le fax",
+  "het alarm": "l’alarme",
+  "Voeg minstens één gebruiker toe.": "Ajoutez au moins un utilisateur.",
+  " (gebruiker {0})": " (utilisateur {0})",
+  "Intern nummer, voornaam en familienaam zijn verplicht{0}.": "Le numéro interne, le prénom et le nom de famille sont obligatoires{0}.",
+  "Een geldig e-mailadres is verplicht{0}.": "Une adresse e-mail valide est obligatoire{0}.",
+  "Duid minstens PC of GSM aan{0}.": "Cochez au moins PC ou GSM{0}.",
+  "GSM-nummer is verplicht bij een GSM-applicatie{0}.": "Le numéro GSM est obligatoire pour une application GSM{0}.",
+  "Geen geldig Belgisch GSM-nummer{0} (bijvoorbeeld 0470 12 34 56).": "Numéro GSM belge non valide{0} (par exemple 0470 12 34 56).",
+  "Intern nummer {0} komt meer dan één keer voor.": "Le numéro interne {0} apparaît plus d’une fois.",
+  "Nummer {0}: {1}.": "Numéro {0} : {1}.",
+  "Groep {0}": "Groupe {0}",
+  "Toetsen: {0}": "Touches : {0}",
+  "geen keuze (beller drukt niets in)": "aucun choix (l’appelant n’appuie sur rien)",
+  "Call-flow – {0}": "Call-flow – {0}",
+  "Wat er gebeurt wanneer iemand dit nummer belt": "Ce qui se passe quand quelqu’un appelle ce numéro",
+  "Instellingen van de blokken": "Paramètres des blocs",
+  "Blok": "Bloc",
+  "Instellingen": "Paramètres",
+  "<h3>Klant</h3>{0}<h3>Telefoonnummers</h3>{1}<h3>Randapparatuur</h3>{2}<h3>Nummerplan</h3>{3}<h3>Call-flow</h3>{4}": "<h3>Client</h3>{0}<h3>Numéros de téléphone</h3>{1}<h3>Équipements périphériques</h3>{2}<h3>Plan de numérotation</h3>{3}<h3>Call-flow</h3>{4}",
+  "Veld": "Champ",
+  "Waarde": "Valeur",
+  "Bedrijfsnaam": "Nom de l’entreprise",
+  "Adres": "Adresse",
+  "Contactpersoon": "Personne de contact",
+  "Omschrijving": "Description",
+  "Apparaat": "Appareil",
+  "Configuratie": "Configuration",
+  "Intern": "Interne",
+  "Rechtstreeks": "Direct",
+  "Voornaam": "Prénom",
+  "Familienaam": "Nom de famille",
+  "Apps": "Applications",
+  "GSM": "GSM",
+  "E-mail": "E-mail",
+  "Call-flow": "Call-flow",
+  "Cloud Telephony – configuratie": "Cloud Telephony – configuration",
+  "Opgemaakt op {0}": "Établi le {0}",
+  "Klantgegevens": "Données du client",
+  "Telefoonnummers": "Numéros de téléphone",
+  "Randapparatuur": "Équipements périphériques",
+  "Nummerplan": "Plan de numérotation",
+  "Rechtstr.": "Direct",
+  "Cloud_Telephony_Configuratie_{0}_{1}": "Cloud_Telephony_Configuration_{0}_{1}",
+  "klant": "client",
+  "PDF gedownload.": "PDF téléchargé.",
+  "PDF opgeslagen.": "PDF enregistré.",
+  "Download geannuleerd.": "Téléchargement annulé.",
+  "PDF maken mislukt: {0}": "Échec de la création du PDF : {0}",
+  "Zeker? Klik nogmaals om alles te wissen": "Sûr ? Cliquez encore une fois pour tout effacer",
+  "Versie {0}": "Version {0}",
+  " (versie {0})": " (version {0})",
+  " (oud, ontbreekt of niet geladen)": " (ancienne version, manquant ou non chargé)",
+  "Let op: niet alle bestanden zijn van versie {0}. Upload deze bestanden opnieuw en ververs de pagina met Ctrl+F5: {1}": "Attention : tous les fichiers ne sont pas de la version {0}. Téléversez à nouveau ces fichiers et actualisez la page avec Ctrl+F5 : {1}",
+  "Ga naar deze stap": "Aller à cette étape",
+  "Ga naar deze stap (de stappen ertussen worden gecontroleerd)": "Aller à cette étape (les étapes intermédiaires sont vérifiées)",
+  "Vul de gegevens stap voor stap in. Op het einde maakt u een PDF-verslag.": "Remplissez les données étape par étape. À la fin, vous créez un rapport PDF.",
+  "Klant": "Client",
+  "Nummers": "Numéros",
+  "Overzicht": "Récapitulatif",
+  "1. Klantgegevens": "1. Données du client",
+  "Bedrijfsnaam *": "Nom de l’entreprise *",
+  "Adres *": "Adresse *",
+  "Contactpersoon *": "Personne de contact *",
+  "2. Gebruikte telefoonnummers": "2. Numéros de téléphone utilisés",
+  "Geef alle nummers in die momenteel in gebruik zijn. Hebt u een reeks opeenvolgende nummers (bv. 02 334 88 40 tot 49)? Gebruik dan": "Indiquez tous les numéros actuellement utilisés. Avez-vous une série de numéros consécutifs (p. ex. 02 334 88 40 à 49) ? Utilisez alors",
+  "+ Nummerreeks toevoegen": "+ Ajouter une série de numéros",
+  "+ Nummer toevoegen": "+ Ajouter un numéro",
+  "3. Randapparatuur": "3. Équipements périphériques",
+  "Fax aanwezig?": "Fax présent ?",
+  "– kies –": "– choisir –",
+  "Faxnummer *": "Numéro de fax *",
+  "Hoe is de fax aangesloten? *": "Comment le fax est-il raccordé ? *",
+  "Analoge lijn": "Ligne analogique",
+  "Fax2mail": "Fax2mail",
+  "Andere": "Autre",
+  "E-mailadres waarnaar de faxen worden verstuurd *": "Adresse e-mail à laquelle les fax sont envoyés *",
+  "Toelichting *": "Précisions *",
+  "Parlofoon aanwezig?": "Parlophone présent ?",
+  "Gekoppeld met de PBX?": "Couplé au PBX ?",
+  "Type koppeling *": "Type de couplage *",
+  "Analoog": "Analogique",
+  "IP": "IP",
+  "Model *": "Modèle *",
+  "Alarm aanwezig?": "Alarme présente ?",
+  "Werking alarm *": "Fonctionnement de l’alarme *",
+  "Netwerk": "Réseau",
+  "SIM": "SIM",
+  "Welk nummer? *": "Quel numéro ? *",
+  "4. Nummerplan": "4. Plan de numérotation",
+  "Maximaal 3 gebruikers. Laat een rij leeg als ze niet nodig is. Zodra u een veld invult, moeten de verplichte velden van die rij ingevuld zijn en moet minstens PC of GSM aangeduid zijn. U kan ook cellen uit Excel plakken (zelfde kolomvolgorde) en navigeren met de pijltjestoetsen, Tab en Enter.": "3 utilisateurs maximum. Laissez une ligne vide si elle n’est pas nécessaire. Dès que vous remplissez un champ, les champs obligatoires de cette ligne doivent être remplis et au moins PC ou GSM doit être coché. Vous pouvez aussi coller des cellules depuis Excel (même ordre de colonnes) et naviguer avec les flèches, Tab et Entrée.",
+  "Intern *": "Interne *",
+  "Rechtstreeks (optioneel)": "Direct (facultatif)",
+  "Voornaam *": "Prénom *",
+  "Familienaam *": "Nom de famille *",
+  "PC": "PC",
+  "GSM-nummer": "Numéro GSM",
+  "E-mail *": "E-mail *",
+  "+ Gebruiker toevoegen": "+ Ajouter un utilisateur",
+  "5. Call-flow": "5. Call-flow",
+  "Kies in de lijst het nummer waarvoor u iets wil instellen en bouw dan op wat er gebeurt wanneer iemand dat nummer belt. Een call-flow instellen is optioneel: nummers waarvoor u niets instelt, blijven zoals ze zijn. Klik op een": "Choisissez dans la liste le numéro que vous voulez configurer, puis construisez ce qui se passe quand quelqu’un appelle ce numéro. Configurer un call-flow est facultatif : les numéros pour lesquels vous ne configurez rien restent tels quels. Cliquez sur un",
+  "om een stap toe te voegen en op een blok om de instellingen te openen. Houd uw muis boven een blok of knop voor meer uitleg.": "pour ajouter une étape et sur un bloc pour ouvrir ses paramètres. Survolez un bloc ou un bouton avec la souris pour plus d’explications.",
+  "Voor welk nummer wilt u een call-flow instellen?": "Pour quel numéro voulez-vous configurer un call-flow ?",
+  "6. Overzicht": "6. Récapitulatif",
+  "PDF-verslag downloaden": "Télécharger le rapport PDF",
+  "← Vorige": "← Précédent",
+  "Volgende →": "Suivant →",
+  "Alle gegevens blijven in uw browser; het PDF-verslag wordt lokaal aangemaakt. Uw invoer wordt enkel in dit tabblad bewaard en verdwijnt wanneer u het tabblad sluit.": "Toutes les données restent dans votre navigateur ; le rapport PDF est créé localement. Votre saisie n’est conservée que dans cet onglet et disparaît lorsque vous le fermez.",
+  "Alle gegevens wissen en opnieuw beginnen": "Effacer toutes les données et recommencer",
+  "Cloud Telephony – configuratieformulier": "Cloud Telephony – formulaire de configuration",
+  "bv. 02 334 88 44": "p. ex. 02 334 88 44",
+};
+
+// Vertaalt de vaste tekst van index.html (tekst, placeholder, title, alt, aria-label) naar het Frans.
+function i18nStatic() {
+  document.documentElement.lang = LANG;
+  if (LANG !== "fr") return;
+  // <option> zonder value gebruikt zijn tekst als waarde: eerst de Nederlandse tekst als waarde vastzetten
+  document.querySelectorAll("option:not([value])").forEach(function (o) {
+    o.setAttribute("value", o.textContent.trim());
+  });
+  var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT),
+    nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(function (n) {
+    var pn = n.parentNode.nodeName;
+    if (pn === "SCRIPT" || pn === "STYLE") return;
+    var m = /^(\s*)([\s\S]*?)(\s*)$/.exec(n.nodeValue);
+    if (m[2] && Object.prototype.hasOwnProperty.call(FR, m[2])) n.nodeValue = m[1] + FR[m[2]] + m[3];
+  });
+  document.querySelectorAll("[placeholder],[title],[alt],[aria-label]").forEach(function (e) {
+    ["placeholder", "title", "alt", "aria-label"].forEach(function (a) {
+      var v = e.getAttribute(a);
+      if (v && Object.prototype.hasOwnProperty.call(FR, v)) e.setAttribute(a, FR[v]);
+    });
+  });
+  document.title = tx(document.title);
+}
+i18nStatic();
+</script>
+<script>
+/*
+ * Cloud Telephony – configuratieformulier
+ *
+ * Formulier in 6 stappen (klant, nummers, randapparatuur,
+ * nummerplan, call-flow, overzicht) met PDF-verslag.
+ *
+ * Afhankelijkheden: enkel jsPDF + jsPDF-AutoTable (globale variabele "jspdf").
+ * Er is geen server: alle gegevens blijven in de browser (DOM + de objecten D en FL).
+ *
+ * Belangrijkste begrippen:
+ *   D   – lijst met nummers (D.nrs) en gebruikers (D.users) waarvoor een call-flow kan gelden
+ *   FL  – de call-flow per telefoonnummer: een boom van blokken ("nodes")
+ *   cur – het nummer waarvoor nu een call-flow wordt ingesteld, root = het startblok ervan
+ *   SEL – het blok waarvan het instellingenvenster openstaat
+ *   Een blok ({t:"grp", ...}) heeft "slots" = aansluitpunten naar een volgend blok (zie slots())
+ *
+ * De code staat verdeeld over meerdere bestanden in js/ (zie index.html voor de volgorde):
+ *   00-logo.js – het logo als data-URI
+ *   01-i18n.js – taalkeuze (NL/FR) en vertaalfunctie tx()
+ *   02-i18n-fr.js – Franse woordenlijst
+ *   03-basis.js – hulpfuncties, stap 2 (nummers en nummerreeksen) en stap 4 (nummerplan)
+ *   04-callflow-model.js – call-flow: gegevensmodel, instellingenformulieren, beschrijving en controle
+ *   05-callflow-scherm.js – call-flow: het schema tekenen
+ *   06-nummers.js – Belgische telefoonnummers, nummerreeksen, keuzelijsten met nummers
+ *   07-gegevens.js – koppeling nummerplan en call-flow, verzamelen van invoer, validatie per stap
+ *   08-pdf-en-overzicht.js – PDF-verslag en overzichtspagina
+ *   09-navigatie.js – navigatie tussen de stappen en PDF-download
+ *   10-opslag.js – tijdelijk bewaren van de invoer in dit browsertabblad (sessionStorage)
+ *   11-start.js – opstarten: standaardrijen, bewaarde invoer terugzetten, eerste stap tonen
+ */
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["03-basis.js"] = "2026-10-21.1";
+
+// Teller voor unieke ID's van nummerrijen (zodat een nummer na hernoemen herkend blijft).
+// Versie van het formulier (onderaan de pagina getoond): zo is te zien of alle bestanden op de website up-to-date zijn.
+var APP_VERSION = "2026-10-21.1";
+var NID = 0;
+var $ = function (i) {
+  return document.getElementById(i);
+};
+// Huidige stap (0-5) en totaal aantal stappen.
+var step = 0,
+  N = 6;
+
+/* ======================================================================
+ * ALGEMEEN: hulpfuncties en voorwaardelijke velden
+ * ====================================================================== */
+
+// Waarde van een invoerveld (getrimd) of "" als het veld niet bestaat.
+function val(i) {
+  var e = $(i);
+  return e ? e.value.trim() : "";
+}
+// Toont/verbergt velden met data-if="veld=waarde" (vervolgvragen); geneste vragen verdwijnen mee.
+function cond() {
+  document.querySelectorAll(".cond").forEach(function (c) {
+    var p = c.dataset.if.split("="),
+      on = val(p[0]) === p[1];
+    var par = c.parentElement.closest(".cond");
+    if (par && !par.classList.contains("show")) on = false;
+    c.classList.toggle("show", on);
+  });
+}
+document.addEventListener("change", cond);
+
+/* ======================================================================
+ * STAP 2 – TELEFOONNUMMERS: nummers en nummerreeksen toevoegen
+ * ====================================================================== */
+
+// Standaardtekst onder een nummerreeks zolang er niets is ingevuld.
+var RH =
+  tx("Geef het eerste en het laatste nummer in. Bij het laatste nummer volstaan de laatste cijfers (bv. 49).");
+// Voegt een rij toe in de nummerlijst: één nummer (rng=false) of een nummerreeks (rng=true).
+// Bij een reeks bevat het verborgen veld ".nr" de samengestelde, genormaliseerde waarde.
+function addNr(rng) {
+  var d = document.createElement("div");
+  d.className = "row" + (rng ? " rng" : "");
+  d.dataset.id = ++NID;
+  d.innerHTML = rng
+    ? tx("<div class=\"tg\">Nummerreeks</div><div><label>Eerste nummer</label><input class=\"rf be\" inputmode=\"tel\" placeholder=\"bv. 02 334 88 40\"></div><div><label>Laatste nummer</label><input class=\"rt\" inputmode=\"tel\" placeholder=\"bv. 49\"></div><div class=\"n2\"><label>Omschrijving (optioneel)</label><input class=\"nd\"></div><button type=\"button\" class=\"x\" title=\"Verwijderen\">✕</button><div class=\"rp\">{0}</div><input class=\"nr\" type=\"hidden\">", RH)
+    : tx('<div><label>Telefoonnummer</label><input class="nr be" data-range="1" inputmode="tel" placeholder="bv. 02 334 88 44"></div><div class="n2"><label>Omschrijving (optioneel)</label><input class="nd"></div><button type="button" class="x" title="Verwijderen">✕</button>');
+  d.querySelector("button").onclick = function () {
+    d.remove();
+  };
+  $("nrs").appendChild(d);
+}
+// Houdt het verborgen veld van een reeks gelijk met "eerste" + "laatste" nummer en toont de controle eronder.
+function syncRng(d) {
+  var f = d.querySelector(".rf"),
+    t = d.querySelector(".rt"),
+    n = d.querySelector(".nr"),
+    p = d.querySelector(".rp"),
+    a = f.value.trim(),
+    b = t.value.trim();
+  n.value = a || b ? a + " - " + b : "";
+  p.className = "rp";
+  f.classList.remove("bad");
+  t.classList.remove("bad");
+  if (!n.value) {
+    p.textContent = RH;
+    return;
+  }
+  var r = fmtNr(n.value);
+  if (a && b && r.ok && r.range) {
+    n.value = r.txt;
+    p.textContent = tx("✔ {0} · {1} nummers", r.txt, expandNums(r.txt).length);
+  } else if (a && b) {
+    p.textContent =
+      tx("✖ Ongeldige reeks: het eerste nummer moet lager zijn dan het laatste, in dezelfde zone, met maximaal 1000 nummers.");
+    p.className = "rp bad";
+    f.classList.add("bad");
+    t.classList.add("bad");
+  } else p.textContent = tx("Vul ook het {0} nummer in.", a ? tx("laatste") : tx("eerste"));
+}
+// Controle van een nummerreeks tijdens het typen.
+$("nrs").addEventListener("input", function (e) {
+  var d = e.target.closest && e.target.closest(".rng");
+  if (d) syncRng(d);
+});
+$("nrs").addEventListener("change", function (e) {
+  var d = e.target.closest && e.target.closest(".rng");
+  if (d)
+    setTimeout(function () {
+      syncRng(d);
+    }, 0);
+});
+
+/* ======================================================================
+ * STAP 4 – NUMMERPLAN: tabel met gebruikers (max. 3), pijltjes/Tab/Enter en plakken uit Excel
+ * ====================================================================== */
+
+// Maximaal aantal gebruikers in het nummerplan.
+var MAX = 3;
+// Voegt een lege rij toe aan het nummerplan (tot MAX). data-l = label voor de kaartweergave op mobiel.
+function addP() {
+  if (document.querySelectorAll("#ppl tr").length >= MAX) return;
+  var t = document.createElement("tr");
+  t.innerHTML =
+    '<td data-l="Intern nummer *"><input class="in" inputmode="numeric"></td><td data-l="Rechtstreeks nummer (optioneel)"><select class="rn"></select></td><td data-l="Voornaam *"><input class="vn"></td><td data-l="Familienaam *"><input class="fn"></td><td data-l="PC"><input type="checkbox" class="pc"></td><td data-l="GSM-app"><input type="checkbox" class="gm"></td><td data-l="GSM-nummer"><input class="gn be" data-t="gsm" inputmode="tel" placeholder="bv. 0470 12 34 56"></td><td data-l="E-mail *"><input class="ml" type="email" inputmode="email"></td><td><button type="button" class="x" title="Verwijderen">✕</button></td>';
+  t.querySelector(".x").title = tx("Rij leegmaken");
+  t.querySelector(".x").onclick = function () {
+    t.querySelectorAll("input").forEach(function (e) {
+      if (e.type === "checkbox") e.checked = false;
+      else e.value = "";
+    });
+    t.querySelector(".rn").value = "";
+    fillRn();
+  };
+  $("ppl").appendChild(t);
+  lim();
+  fillRn();
+}
+// Vult de keuzelijsten "Rechtstreeks nummer": alle nummers (reeksen uitgeklapt); een nummer dat
+// al bij een andere gebruiker staat, wordt uitgeschakeld en gemarkeerd.
+function fillRn() {
+  var n = allNums().map(function (x) {
+      return [x];
+    }),
+    R = [].slice.call(document.querySelectorAll("#ppl .rn"));
+  R.forEach(function (s) {
+    var v = s.value;
+    if (
+      !n.some(function (r) {
+        return r[0] === v;
+      })
+    )
+      v = "";
+    s.innerHTML = "";
+    var o = document.createElement("option");
+    o.value = "";
+    o.textContent = tx("– geen –");
+    s.appendChild(o);
+    n.forEach(function (r) {
+      var o = document.createElement("option"),
+        x = R.some(function (t) {
+          return t !== s && t.value === r[0];
+        });
+      o.value = r[0];
+      o.textContent = r[0] + (x ? tx(" (reeds gebruikt)") : "");
+      o.disabled = x;
+      s.appendChild(o);
+    });
+    s.value = v;
+  });
+}
+$("ppl").addEventListener("change", function (e) {
+  if (e.target.classList.contains("rn")) fillRn();
+});
+// Excel-achtige navigatie: verplaatst de focus dr rijen en dc kolommen in het nummerplan.
+function mv(t, dr, dc) {
+  var td = t.closest("td"),
+    rows = [].slice.call($("ppl").rows),
+    r = rows[rows.indexOf(td.parentElement) + dr],
+    c = r && r.cells[td.cellIndex + dc],
+    x = c && c.querySelector("input,select,button");
+  if (x) {
+    x.focus();
+    if (x.select && x.type !== "checkbox") x.select();
+    return true;
+  }
+  return false;
+}
+// Toetsenbord in het nummerplan: Enter/pijl omlaag/omhoog = ander veld, pijl links/rechts aan de rand van een tekst.
+$("ppl").addEventListener("keydown", function (e) {
+  var t = e.target,
+    k = e.key,
+    sl = t.tagName === "SELECT",
+    cb = t.type === "checkbox",
+    tx = t.tagName === "INPUT" && !cb,
+    ok = false;
+  if (!sl && !cb && !tx) return;
+  if (k === "Enter" && !sl) ok = mv(t, e.shiftKey ? -1 : 1, 0);
+  else if ((k === "ArrowDown" || k === "ArrowUp") && !sl) ok = mv(t, k === "ArrowDown" ? 1 : -1, 0);
+  else if (
+    k === "ArrowRight" &&
+    (cb || (tx && t.selectionStart === t.value.length && t.selectionEnd === t.value.length))
+  )
+    ok = mv(t, 0, 1);
+  else if (k === "ArrowLeft" && (cb || (tx && t.selectionStart === 0 && t.selectionEnd === 0)))
+    ok = mv(t, 0, -1);
+  if (ok) e.preventDefault();
+});
+// Plakken uit Excel: tabgescheiden cellen worden over de rijen en kolommen verdeeld.
+$("ppl").addEventListener("paste", function (e) {
+  var t = e.target,
+    td = t.closest && t.closest("td");
+  if (!td) return;
+  var txt = ((e.clipboardData || window.clipboardData).getData("text") || "")
+    .replace(/\r/g, "")
+    .replace(/\n+$/, "");
+  if (txt.indexOf("\t") < 0 && txt.indexOf("\n") < 0) return;
+  e.preventDefault();
+  var rows = [].slice.call($("ppl").rows),
+    r0 = rows.indexOf(td.parentElement),
+    c0 = td.cellIndex;
+  txt.split("\n").forEach(function (line, i) {
+    var tr = rows[r0 + i];
+    if (!tr) return;
+    line.split("\t").forEach(function (v, j) {
+      var c = tr.cells[c0 + j],
+        x = c && c.querySelector("input,select");
+      if (!x || c0 + j > 7) return;
+      v = v.trim();
+      if (x.type === "checkbox") x.checked = /^(x|ja|yes|true|1|v|✓)$/i.test(v);
+      else if (x.tagName === "SELECT")
+        x.value = [].some.call(x.options, function (o) {
+          return o.value === v;
+        })
+          ? v
+          : "";
+      else x.value = v;
+    });
+  });
+  fillRn();
+});
+// Schakelt de knop "Gebruiker toevoegen" uit zodra het maximum is bereikt.
+function lim() {
+  $("addP").disabled = document.querySelectorAll("#ppl tr").length >= MAX;
+}
+$("addNr").onclick = function () {
+  addNr(false);
+};
+$("addRg").onclick = function () {
+  addNr(true);
+};
+$("addP").onclick = addP;
+</script>
+<script>
+// Call-flow: gegevensmodel (blokken en aansluitpunten), instellingenformulieren per bloktype, beschrijving en controle.
+// (Klassiek script: deelt de globale variabelen en functies met de andere bestanden in js/; laadvolgorde: zie index.html.)
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["04-callflow-model.js"] = "2026-10-21.1";
+
+/* ======================================================================
+ * STAP 5 – CALL-FLOW: gegevensmodel (blokken en aansluitpunten)
+ * ====================================================================== */
+
+var NAME = {
+  nr: tx("Nummer"),
+  oh: tx("Openingsuren"),
+  grp: tx("Groep"),
+  menu: tx("Keuzemenu"),
+  ext: tx("Forward naar een nummer"),
+  msg: tx("Boodschap afspelen"),
+  rep: tx("Keuzemenu herhalen"),
+  vm: tx("Voicemail"),
+  hang: tx("Inhaken"),
+};
+var SHORT = {
+  nr: tx("Nummer"),
+  oh: tx("Openingsuren"),
+  grp: tx("Groep"),
+  menu: tx("Keuzemenu"),
+  ext: tx("Forward"),
+  msg: tx("Boodschap"),
+  rep: tx("Herhaal menu"),
+  vm: tx("Voicemail"),
+  hang: tx("Inhaken"),
+};
+var IC = { nr: "📞", oh: "📅", grp: "👥", menu: "🔢", ext: "📲", msg: "🔊", rep: "🔁", vm: "🎙", hang: "📴" };
+var COL = {
+  nr: "#000",
+  oh: "#0a7a5a",
+  grp: "#ff7900",
+  menu: "#1d5fd1",
+  ext: "#8a2be2",
+  msg: "#c0392b",
+  rep: "#1d5fd1",
+  vm: "#8d6e00",
+  hang: "#6b6b6b",
+};
+var HELP = {
+  nr: tx("Het telefoonnummer waarvoor u de call-flow instelt."),
+  oh: tx("Bepaal wanneer u bereikbaar bent. Tijdens en buiten de openingsuren volgt een andere stap."),
+  grp: tx("Laat meerdere collega's tegelijk of na elkaar rinkelen."),
+  menu: tx("De beller kiest met een toets, bijvoorbeeld 1 voor verkoop."),
+  ext: tx("Schakel de oproep door naar een nummer: een interne gebruiker of een van uw ingevulde nummers, of een extern nummer, bijvoorbeeld een GSM."),
+  msg: tx("Speel een opgenomen boodschap af. Kies daarna altijd wat er gebeurt, bijvoorbeeld inhaken, voicemail of een groep."),
+  rep: tx("De beller hoort het keuzemenu opnieuw."),
+  vm: tx("De beller kan een bericht inspreken. U kiest wie de voicemailberichten ontvangt."),
+  hang: tx("Het gesprek wordt beëindigd."),
+};
+// DAGEN: weekdagen; KEYS: toetsen van het keuzemenu (+ "Geen keuze"); ADD: blokken die als vervolgstap
+// gekozen mogen worden.
+var DAGEN = [tx("Maandag"), tx("Dinsdag"), tx("Woensdag"), tx("Donderdag"), tx("Vrijdag"), tx("Zaterdag"), tx("Zondag")],
+  KEYS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "#", "Geen keuze"],
+  ADD = ["oh", "grp", "menu", "ext", "msg", "vm", "hang"];
+// Toestand van de call-flow: D (nummers/gebruikers), FL (schema per nummer), cur (gekozen nummer),
+// root (startblok), SEL (blok met open instellingen), DEL (verwijderfunctie per blok).
+var D = { nrs: [], users: [] },
+  FL = {},
+  cur = "",
+  root,
+  SEL = null,
+  DEL = new WeakMap();
+// Maakt een nieuw blok van type t met standaardwaarden (nr, oh, grp, menu, ext, msg, vm, hang).
+function mk(t) {
+  var n = { t: t };
+  if (t === "nr") {
+    n.nr = "";
+    n.kid = null;
+  }
+  if (t === "oh") {
+    n.hrs = "Openingsuren instellen";
+    n.da = "09:00";
+    n.db = "17:00";
+    n.days = DAGEN.map(function (x, i) {
+      return { o: i < 5, a: "09:00", b: "17:00", p: false, pa: "12:00", pb: "13:00" };
+    });
+    n.open = null;
+    n.closed = null;
+    n.pause = null;
+  }
+  if (t === "grp") {
+    n.name = "";
+    n.sel = [];
+    n.mode = "Simultaan";
+    n.wacht = "Nee";
+    n.noans = null;
+  }
+  if (t === "menu") {
+    n.keys = [];
+  }
+  if (t === "ext") {
+    n.kind = "";
+    n.usr = ""; // intern: gebruiker uit het nummerplan ("r1", ...)
+    n.int = ""; // intern: telefoonnummer uit de nummerlijst van stap 2 (leeg als er een gebruiker gekozen is)
+    n.num = "";
+  }
+  if (t === "msg") n.next = null;
+  if (t === "vm") n.vmu = [];
+  return n;
+}
+// Soort forward: "intern" (gebruiker uit het nummerplan) of "extern" (ander nummer). Oudere bewaarde schema's
+// met enkel een nummer tellen als extern.
+function fkind(n) {
+  return n.kind || (n.num ? "extern" : "");
+}
+// Bestemming van een forward als tekst, bv. "intern nummer 201 – Jan Peeters" of "extern nummer +32 470 12 34 56".
+function ftxt(n) {
+  var k = fkind(n);
+  if (k === "intern") return tx("intern nummer {0}", n.usr && D.users.indexOf(n.usr) >= 0 ? ulab(n.usr) : n.int || "?");
+  if (k === "extern") return tx("extern nummer {0}", n.num || "?");
+  return tx("nummer (nog te kiezen)");
+}
+// Heeft minstens één open dag een middagpauze? (bepaalt of de aansluiting "Tijdens de middagpauze" bestaat)
+function hasP(n) {
+  return n.days.some(function (d) {
+    return d.o && d.p;
+  });
+}
+// Geeft de aansluitpunten van een blok: label, toegelaten vervolgblokken, verplicht ja/nee,
+// en g()/s() om het gekoppelde blok te lezen/zetten. Alle boomfuncties werken via deze functie.
+function slots(n) {
+  var S = [];
+  function sl(l, o, k, al, req, key) {
+    S.push({
+      l: l,
+      al: al,
+      req: req,
+      key: key,
+      g: function () {
+        return o[k];
+      },
+      s: function (v) {
+        o[k] = v;
+      },
+    });
+  }
+  if (n.t === "nr") sl(tx("Als iemand belt"), n, "kid", ADD, 1);
+  if (n.t === "oh") {
+    sl(n.hrs === "Altijd open" ? tx("Altijd bereikbaar") : tx("Tijdens de openingsuren"), n, "open", ADD, 1);
+    if (n.hrs !== "Altijd open") {
+      sl(tx("Buiten de openingsuren"), n, "closed", ADD, 1);
+      if (hasP(n)) sl(tx("Tijdens de middagpauze"), n, "pause", ADD, 1);
+    }
+  }
+  if (n.t === "grp") sl(tx("Als niemand opneemt"), n, "noans", ADD, 0);
+  if (n.t === "msg") sl(tx("Daarna"), n, "next", ADD, 1);
+  if (n.t === "menu") {
+    var A = ADD.concat("rep"),
+      ks = n.keys
+        .filter(function (k) {
+          return k.k !== "Geen keuze";
+        })
+        .concat(
+          n.keys.filter(function (k) {
+            return k.k === "Geen keuze";
+          }),
+        );
+    ks.forEach(function (k) {
+      sl(k.k === "Geen keuze" ? tx("Als de beller niets indrukt") : tx("Toets {0}", k.k), k, "c", A, 1);
+    });
+  }
+  return S;
+}
+
+/* ======================================================================
+ * CALL-FLOW: kleine UI-bouwstenen voor het instellingenvenster
+ * ====================================================================== */
+
+// Voegt een label + veld toe aan een instellingenpaneel.
+function add(c, l, e) {
+  var d = document.createElement("label");
+  d.textContent = l;
+  c.appendChild(d);
+  c.appendChild(e);
+}
+function T(s) {
+  return document.createTextNode(s);
+}
+// Maakt een knop met tekst, klikfunctie en optionele CSS-klasse.
+function btn(t, f, cl) {
+  var b = document.createElement("button");
+  b.type = "button";
+  b.textContent = t;
+  b.onclick = f;
+  if (cl) b.className = cl;
+  return b;
+}
+// Keuzelijst gekoppeld aan n[k]; re=true: schema opnieuw tekenen na wijziging.
+function pick(c, n, k, l, o, re) {
+  var s = document.createElement("select");
+  o.forEach(function (x) {
+    var e = document.createElement("option"),
+      v = Array.isArray(x) ? x : [x, x];
+    e.value = v[0];
+    e.textContent = tx(v[1]); // waarde blijft Nederlands (code), de tekst is vertaald
+    s.appendChild(e);
+  });
+  s.value = n[k];
+  s.onchange = function () {
+    n[k] = s.value;
+    re ? render() : upd();
+  };
+  add(c, l, s);
+}
+// Tijdveld (HH:MM) gekoppeld aan n[k].
+function tm(n, k) {
+  var x = document.createElement("input");
+  x.type = "time";
+  x.value = n[k];
+  x.oninput = function () {
+    n[k] = x.value;
+    upd();
+  };
+  return x;
+}
+// Twee tijdvelden ("van" – "tot") naast elkaar.
+function pair(n, a, b) {
+  var w = document.createElement("div");
+  w.className = "tp";
+  w.appendChild(tm(n, a));
+  w.appendChild(T(tx("tot")));
+  w.appendChild(tm(n, b));
+  return w;
+}
+// HTML van <option>-elementen voor een lijst; ph=true voegt "– kies –" toe.
+function opts(a, ph) {
+  return (
+    (ph ? tx('<option value="">– kies –</option>') : "") +
+    a
+      .map(function (u) {
+        return "<option>" + esc(u) + "</option>";
+      })
+      .join("")
+  );
+}
+// Aankruisvak met label; f(waarde) wordt aangeroepen bij wijziging.
+function ckb(l, v, f) {
+  var d = document.createElement("label"),
+    x = document.createElement("input");
+  d.className = "ck";
+  x.type = "checkbox";
+  x.checked = v;
+  x.onchange = function () {
+    f(x.checked);
+  };
+  d.appendChild(x);
+  d.appendChild(T(l));
+  return d;
+}
+// Maakt een formulierfunctie die enkel een uitlegtekst toont (voor blokken zonder instellingen).
+function note(t) {
+  return function (c) {
+    var q = document.createElement("div");
+    q.className = "help";
+    q.textContent = t;
+    c.appendChild(q);
+  };
+}
+
+/* ======================================================================
+ * CALL-FLOW: instellingenformulier per bloktype (F.nr, F.oh, F.grp, ...)
+ * ====================================================================== */
+
+// F[type](paneel, blok) bouwt de instellingen van dat bloktype op.
+var F = {
+  nr: function (c, n) {
+    var i = document.createElement("input");
+    i.value = n.nr;
+    i.readOnly = true;
+    add(c, tx("Telefoonnummer (wijzig via de lijst boven het schema)"), i);
+    var o = D.nrs.filter(function (x) {
+      return x !== n.nr && FL[x] && FL[x].kid;
+    });
+    if (o.length) {
+      var s = document.createElement("select");
+      s.innerHTML = opts(o, 1);
+      add(c, tx("Kopieer de call-flow van een ander nummer"), s);
+      var b = btn(
+        tx("Kopiëren"),
+        function () {
+          if (!s.value) return;
+          if (n.kid && b.textContent === tx("Kopiëren")) {
+            b.textContent = tx("Zeker? Dit overschrijft het huidige schema");
+            return;
+          }
+          FL[cur] = JSON.parse(JSON.stringify(FL[s.value]));
+          FL[cur].nr = cur;
+          root = FL[cur];
+          SEL = null;
+          render();
+        },
+        "sm",
+      );
+      c.appendChild(b);
+    }
+  },
+  oh: function (c, n) {
+    pick(
+      c,
+      n,
+      "hrs",
+      tx("Wanneer bent u bereikbaar?"),
+      [
+        ["Altijd open", "Altijd open (geen openingsuren)"],
+        ["Openingsuren instellen", "Openingsuren instellen"],
+      ],
+      true,
+    );
+    if (n.hrs === "Altijd open") return;
+    var q = pair(n, "da", "db");
+    q.appendChild(
+      btn(
+        tx("Toepassen op alle open dagen"),
+        function () {
+          n.days.forEach(function (d) {
+            if (d.o) {
+              d.a = n.da;
+              d.b = n.db;
+            }
+          });
+          render();
+        },
+        "sm",
+      ),
+    );
+    add(c, tx("Snel invullen: dezelfde uren voor alle open dagen"), q);
+    var t = document.createElement("div");
+    n.days.forEach(function (d, i) {
+      var r = document.createElement("div");
+      r.className = "drow";
+      r.appendChild(
+        ckb(DAGEN[i], d.o, function (v) {
+          d.o = v;
+          if (!v) d.p = false;
+          render();
+        }),
+      );
+      if (!d.o) {
+        var s = document.createElement("span");
+        s.textContent = tx("gesloten");
+        r.appendChild(s);
+      } else {
+        r.appendChild(pair(d, "a", "b"));
+        r.appendChild(
+          ckb(tx("Middagpauze"), d.p, function (v) {
+            d.p = v;
+            render();
+          }),
+        );
+        if (d.p) r.appendChild(pair(d, "pa", "pb"));
+      }
+      t.appendChild(r);
+    });
+    add(c, tx("Uren per dag (vink een dag af als u dan gesloten bent)"), t);
+  },
+  grp: function (c, n) {
+    var nm = document.createElement("input");
+    nm.value = n.name || "";
+    nm.placeholder = tx("Bijvoorbeeld Verkoop of Onthaal");
+    nm.oninput = function () {
+      n.name = nm.value;
+      refreshTree();
+    };
+    add(c, tx("Naam van de groep *"), nm);
+    var m = document.createElement("div");
+    m.className = "mem";
+    n.sel = n.sel.filter(function (u) {
+      return D.users.indexOf(u) >= 0;
+    });
+    D.users.forEach(function (u) {
+      m.appendChild(
+        ckb(ulab(u), n.sel.indexOf(u) >= 0, function (v) {
+          var p = n.sel.indexOf(u);
+          if (v && p < 0) n.sel.push(u);
+          if (!v && p >= 0) n.sel.splice(p, 1);
+          render();
+        }),
+      );
+    });
+    add(c, tx("Wie moet er rinkelen?"), m);
+    pick(
+      c,
+      n,
+      "mode",
+      tx("Hoe moeten de toestellen rinkelen?"),
+      [
+        ["Simultaan", "Allemaal tegelijk"],
+        ["Cascade", "Eén voor één, in volgorde"],
+      ],
+      true,
+    );
+    if (n.mode === "Cascade") {
+      var o = document.createElement("div");
+      n.sel.forEach(function (u, j) {
+        var r = document.createElement("div"),
+          sp = document.createElement("span");
+        r.className = "ord";
+        sp.textContent = j + 1 + ". " + ulab(u);
+        r.appendChild(sp);
+        [
+          ["↑", -1],
+          ["↓", 1],
+        ].forEach(function (a) {
+          var b = btn(a[0], function () {
+            var t = n.sel[j];
+            n.sel[j] = n.sel[j + a[1]];
+            n.sel[j + a[1]] = t;
+            render();
+          });
+          b.disabled = j + a[1] < 0 || j + a[1] >= n.sel.length;
+          r.appendChild(b);
+        });
+        o.appendChild(r);
+      });
+      add(c, tx("In welke volgorde?"), o);
+    }
+    pick(c, n, "wacht", tx("Wachtboodschap afspelen terwijl de beller wacht?"), ["Nee", "Ja"]);
+  },
+  menu: function (c, n) {
+    var l = document.createElement("div");
+    n.keys.forEach(function (k, i) {
+      var r = document.createElement("div"),
+        s = document.createElement("select");
+      r.className = "ord";
+      KEYS.forEach(function (x) {
+        var o = document.createElement("option");
+        o.value = x;
+        o.textContent = x === "Geen keuze" ? tx("Geen keuze (de beller drukt niets in)") : tx("Toets {0}", x);
+        s.appendChild(o);
+      });
+      s.value = k.k;
+      s.onchange = function () {
+        k.k = s.value;
+        render();
+      };
+      r.appendChild(s);
+      var x = btn("✕", function () {
+        n.keys.splice(i, 1);
+        render();
+      });
+      x.title = tx("Toets verwijderen");
+      r.appendChild(x);
+      l.appendChild(r);
+    });
+    add(c, tx("Toetsen van het menu"), l);
+    note(
+      tx("Wilt u iets laten gebeuren wanneer de beller niets indrukt? Voeg dan een toets toe en kies ‘Geen keuze’."),
+    )(c);
+    c.appendChild(
+      btn(
+        tx("+ Toets toevoegen"),
+        function () {
+          var u = n.keys.map(function (k) {
+            return k.k;
+          });
+          n.keys.push({
+            k:
+              KEYS.slice(0, 12).filter(function (k) {
+                return u.indexOf(k) < 0;
+              })[0] || "1",
+            c: null,
+          });
+          render();
+        },
+        "sm",
+      ),
+    );
+  },
+  ext: function (c, n) {
+    n.kind = fkind(n);
+    var k = document.createElement("select");
+    k.innerHTML =
+      tx('<option value="">– kies –</option><option value="intern">Intern (een gebruiker of een ingevuld nummer)</option><option value="extern">Extern (een ander nummer, bv. een GSM)</option>');
+    k.value = n.kind;
+    k.onchange = function () {
+      n.kind = k.value;
+      render();
+    };
+    add(c, tx("Naar welk soort nummer?"), k);
+    if (n.kind === "intern") {
+      // Keuze uit alle gebruikers van het nummerplan en alle ingevulde telefoonnummers (reeksen uitgeklapt)
+      var um = usedMap(),
+        ds = {};
+      nrsList().forEach(function (r) {
+        expandNums(r[0]).forEach(function (x) {
+          ds[x] = r[1];
+        });
+      });
+      var nums = allNums(),
+        u = document.createElement("select");
+      u.innerHTML =
+        tx("<option value=\"\">– kies –</option>{0}{1}", D.users.length
+          ? '<optgroup label="Gebruikers uit het nummerplan">' +
+            D.users
+              .map(function (x) {
+                return '<option value="u:' + x + '">' + esc(ulab(x)) + "</option>";
+              })
+              .join("") +
+            "</optgroup>"
+          : "", nums.length
+          ? '<optgroup label="Ingevulde telefoonnummers">' +
+            nums
+              .map(function (x) {
+                return (
+                  '<option value="n:' +
+                  esc(x) +
+                  '">' +
+                  esc(x + (ds[x] ? " – " + ds[x] : "") + (um[x] ? " (rechtstreeks nummer van " + um[x] + ")" : "")) +
+                  "</option>"
+                );
+              })
+              .join("") +
+            "</optgroup>"
+          : "");
+      u.value = n.usr ? "u:" + n.usr : n.int ? "n:" + n.int : "";
+      u.onchange = function () {
+        n.usr = u.value.indexOf("u:") === 0 ? u.value.slice(2) : "";
+        n.int = u.value.indexOf("n:") === 0 ? u.value.slice(2) : "";
+        render();
+      };
+      add(c, tx("Welk intern nummer?"), u);
+    }
+    if (n.kind === "extern") {
+      var i = document.createElement("input");
+      i.value = n.num;
+      i.placeholder = tx("Bijvoorbeeld 0470 12 34 56");
+      i.oninput = function () {
+        n.num = i.value.trim();
+        upd();
+      };
+      i.onchange = function () {
+        var r = fmtBE(i.value);
+        if (r.ok && r.txt) i.value = r.txt;
+        n.num = i.value.trim();
+        render();
+      };
+      add(c, tx("Welk extern nummer?"), i);
+    }
+  },
+  vm: function (c, n) {
+    var m = document.createElement("div");
+    m.className = "mem";
+    n.vmu = (n.vmu || []).filter(function (u) {
+      return D.users.indexOf(u) >= 0;
+    });
+    D.users.forEach(function (u) {
+      m.appendChild(
+        ckb(ulab(u), n.vmu.indexOf(u) >= 0, function (v) {
+          var p = n.vmu.indexOf(u);
+          if (v && p < 0) n.vmu.push(u);
+          if (!v && p >= 0) n.vmu.splice(p, 1);
+          render();
+        }),
+      );
+    });
+    add(c, tx("Wie ontvangt de voicemailberichten? (meerdere mogelijk)"), m);
+  },
+  msg: note(
+    tx("Dit blok heeft geen instellingen. Kies rechts van het blok altijd wat er daarna gebeurt, bijvoorbeeld inhaken, voicemail of een groep."),
+  ),
+  hang: note(tx("Dit blok heeft geen instellingen. Het gesprek wordt beëindigd.")),
+};
+
+/* ======================================================================
+ * CALL-FLOW: tekstuele beschrijving, controle en tekstschema van een blok
+ * ====================================================================== */
+
+// Korte tekst onder de naam van een blok (in de tegel en in de PDF-tekening).
+function sub(n) {
+  switch (n.t) {
+    case "nr":
+      return n.nr || tx("kies nummer");
+    case "oh":
+      return n.hrs === "Altijd open" ? tx("altijd open") : tx("uren per dag");
+    case "grp":
+      return (n.name || "").trim() || tx("naam ontbreekt");
+    case "menu":
+      return tx("{0} toetsen", n.keys.length);
+    case "ext":
+      if (fkind(n) === "intern") return n.usr && D.users.indexOf(n.usr) >= 0 ? ulab(n.usr) : n.int || tx("kies nummer");
+      return n.num || tx("kies nummer");
+    case "vm":
+      return tx("{0} gebruikers", (n.vmu || []).length);
+  }
+  return "";
+}
+// Controle van het blok zelf (los van de vervolgstappen): geeft een lijst met meldingen.
+function own(n) {
+  var o = [];
+  if (n.t === "nr" && !n.nr) o.push(tx("Kies een telefoonnummer"));
+  if (n.t === "grp" && !(n.name || "").trim()) o.push(tx("Groep: geef de groep een naam"));
+  if (n.t === "grp" && !n.sel.length) o.push(tx("Groep: kies wie er moet rinkelen"));
+  if (n.t === "ext") {
+    var fk = fkind(n);
+    if (!fk) o.push(tx("Forward: kies intern of extern"));
+    else if (fk === "intern" && !((n.usr && D.users.indexOf(n.usr) >= 0) || n.int)) o.push(tx("Forward: kies het interne nummer"));
+    else if (fk === "extern" && !n.num) o.push(tx("Forward: vul het externe nummer in"));
+    else if (fk === "extern" && n.num.replace(/\D/g, "").length < 7) o.push(tx("Forward: het externe nummer is niet geldig"));
+  }
+  if (n.t === "vm" && !(n.vmu || []).length) o.push(tx("Voicemail: kies wie de berichten ontvangt"));
+  if (n.t === "menu") {
+    if (!n.keys.length) o.push(tx("Keuzemenu: voeg minstens één toets toe"));
+    var u = {};
+    n.keys.forEach(function (k) {
+      if (u[k.k])
+        o.push(
+          tx("Keuzemenu: {0} komt meer dan één keer voor", k.k === "Geen keuze" ? tx("‘Geen keuze’") : tx("toets {0}", k.k)),
+        );
+      u[k.k] = 1;
+    });
+  }
+  if (n.t === "oh" && n.hrs !== "Altijd open") {
+    if (
+      !n.days.some(function (d) {
+        return d.o;
+      })
+    )
+      o.push(tx("Openingsuren: vink minstens één dag aan"));
+    n.days.forEach(function (d, i) {
+      if (!d.o) return;
+      if (!d.a || !d.b || d.b <= d.a)
+        o.push(tx("Openingsuren {0}: het einduur moet na het beginuur liggen", DAGEN[i].toLowerCase()));
+      else if (d.p && (!d.pa || !d.pb || d.pb <= d.pa || d.pa <= d.a || d.pb >= d.b))
+        o.push(tx("Middagpauze {0}: de pauze moet binnen de openingsuren vallen", DAGEN[i].toLowerCase()));
+    });
+  }
+  return o;
+}
+// Verzamelt alle meldingen van een blok en alle blokken erna; leeg = call-flow volledig.
+function issues(n, o) {
+  own(n).forEach(function (x) {
+    o.push(x);
+  });
+  slots(n).forEach(function (s) {
+    var c = s.g();
+    if (c) issues(c, o);
+    else if (s.req) o.push(tx("{0}: nog niet ingesteld – {1}", NAME[n.t], s.l.toLowerCase()));
+  });
+  return o;
+}
+// Openingsuren als compacte tekst, dagen met dezelfde uren samengevoegd (bv. "Maandag tot vrijdag: 09:00–17:00").
+function dagTxt(n) {
+  var g = [];
+  n.days.forEach(function (d, i) {
+    var t = d.o ? d.a + "–" + d.b + (d.p ? tx(" (middagpauze {0}–{1})", d.pa, d.pb) : "") : tx("gesloten"),
+      l = g[g.length - 1];
+    if (l && l.t === t) l.e = i;
+    else g.push({ s: i, e: i, t: t });
+  });
+  return g
+    .map(function (x) {
+      return DAGEN[x.s] + (x.e > x.s ? tx(" tot {0}", DAGEN[x.e].toLowerCase()) : "") + ": " + x.t;
+    })
+    .join("\n");
+}
+// Volledige beschrijving van een blok (tooltip, overzicht en PDF). Meerdere regels toegelaten.
+function desc(n) {
+  switch (n.t) {
+    case "nr":
+      return tx("Nummer {0}", n.nr || "?");
+    case "oh":
+      return n.hrs === "Altijd open" ? tx("Openingsuren: altijd open") : tx("Openingsuren:\n{0}", dagTxt(n));
+    case "grp":
+      return (
+        tx("Groep \"{0}\"\nRinkelen: {1}\n{2}{3}\nWachtboodschap: {4}", (n.name || "").trim() || tx("naam ontbreekt"), n.mode === "Cascade" ? tx("één voor één, in volgorde") : tx("allemaal tegelijk"), n.mode === "Cascade" ? tx("Leden (in volgorde): ") : tx("Leden: "), n.sel.length
+          ? n.sel
+              .map(function (u, i) {
+                return (n.mode === "Cascade" ? i + 1 + ". " : "") + ulab(u);
+              })
+              .join(n.mode === "Cascade" ? " > " : "; ")
+          : tx("geen leden"), tx(n.wacht))
+      );
+    case "menu":
+      return tx("Keuzemenu ({0} toetsen)", n.keys.length);
+    case "ext":
+      return tx("Forward naar {0}", ftxt(n));
+    case "msg":
+      return tx("Boodschap afspelen");
+    case "vm":
+      return tx("Voicemail naar: {0}", (n.vmu || []).map(ulab).join(", ") || "?");
+    case "hang":
+      return tx("Inhaken (gesprek beëindigen)");
+  }
+  return NAME[n.t];
+}
+// Het hele schema als ingesprongen tekst (voor overzicht en PDF).
+function outline(n, i, l) {
+  var p = new Array(i + 1).join(" "),
+    o = [
+      p +
+        (l ? l + " > " : "") +
+        desc(n)
+          .split("\n")
+          .join("\n" + p + "    "),
+    ];
+  slots(n).forEach(function (s) {
+    var c = s.g();
+    if (c) o.push(outline(c, i + 2, s.l));
+    else o.push(tx("{0}  {1} > (leeg)", p, s.l));
+  });
+  return o.join("\n");
+}
+</script>
+<script>
+// Call-flow: het schema tekenen (tegels, plus-knoppen, menu, instellingenvenster, keuzelijst met nummers).
+// (Klassiek script: deelt de globale variabelen en functies met de andere bestanden in js/; laadvolgorde: zie index.html.)
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["05-callflow-scherm.js"] = "2026-10-21.1";
+
+/* ======================================================================
+ * CALL-FLOW: tekenen van het schema (tegels, plus-knoppen, menu, venster, keuzelijst met nummers)
+ * ====================================================================== */
+
+// Verwijdert een blok; met vervolgstappen eerst een kleine bevestiging.
+function askDel(n, x, del) {
+  if (
+    !slots(n).some(function (s) {
+      return s.g();
+    })
+  ) {
+    del();
+    return;
+  }
+  var c = $("conf"),
+    r = x.getBoundingClientRect();
+  c.innerHTML = tx("<div>Dit blok en alle stappen erna verwijderen?</div>");
+  c.appendChild(
+    btn(
+      tx("Verwijderen"),
+      function () {
+        c.style.display = "none";
+        del();
+      },
+      "p",
+    ),
+  );
+  c.appendChild(
+    btn(tx("Annuleren"), function () {
+      c.style.display = "none";
+    }),
+  );
+  c.style.display = "block";
+  c.style.left = Math.max(4, Math.min(r.left, window.innerWidth - 250)) + "px";
+  c.style.top = Math.max(4, Math.min(r.bottom + 6, window.innerHeight - c.offsetHeight - 8)) + "px";
+}
+// Tekent één blok als tegel (icoon, naam, sub-tekst, waarschuwing, ✕ en klikgedrag).
+function tile(n) {
+  var t = document.createElement("button");
+  t.type = "button";
+  t.className = "tile" + (SEL === n ? " on" : "");
+  t.style.setProperty("--c", COL[n.t]);
+  t.innerHTML =
+    '<span class="ic">' +
+    IC[n.t] +
+    "</span><b>" +
+    SHORT[n.t] +
+    "</b><small>" +
+    esc(sub(n)) +
+    "</small>" +
+    (own(n).length ? '<span class="bd">!</span>' : "");
+  t._tip = function () {
+    return (
+      tx("{0}\n{1}\n\n{2}{3}\n\n(klik om de instellingen te openen)", NAME[n.t], HELP[n.t], desc(n), own(n).length ? "\n\n⚠ " + own(n).join("\n⚠ ") : "")
+    );
+  };
+  t.onclick = function () {
+    SEL = n;
+    render();
+    if (window.innerWidth <= 900 && $("panel").scrollIntoView)
+      setTimeout(function () {
+        $("panel").scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+  };
+  var dl = DEL.get(n);
+  if (dl) {
+    var x = document.createElement("span");
+    x.className = "x";
+    x.textContent = "✕";
+    x.onclick = function (e) {
+      e.stopPropagation();
+      askDel(n, x, dl);
+    };
+    x._tip = function () {
+      return tx("Blok verwijderen");
+    };
+    t.appendChild(x);
+  }
+  return t;
+}
+// Ronde "+"-knop voor een leeg aansluitpunt; pulseert als de stap verplicht is.
+function plus(s) {
+  var b = btn(
+    "+",
+    function () {
+      openMenu(b, s);
+    },
+    "plus" + (s.req ? " req" : ""),
+  );
+  b._tip = function () {
+    return (
+      tx("Stap toevoegen: {0}{1}", s.l.toLowerCase(), s.req ? "" : tx(" (optioneel; zonder stap eindigt het gesprek hier)"))
+    );
+  };
+  return b;
+}
+// Opent het keuzemenu met mogelijke vervolgblokken (met sluitknop; sluit ook bij klik ernaast of Esc).
+function openMenu(b, s) {
+  var m = $("menu");
+  m.innerHTML = "";
+  var hd = document.createElement("div");
+  hd.className = "mh";
+  hd.innerHTML = tx("<b>Kies de volgende stap</b>");
+  var cx = btn(
+    "✕",
+    function () {
+      m.style.display = "none";
+    },
+    "cl",
+  );
+  cx.title = tx("Sluiten");
+  hd.appendChild(cx);
+  m.appendChild(hd);
+  s.al.forEach(function (t) {
+    var o = document.createElement("button");
+    o.type = "button";
+    o.style.setProperty("--c", COL[t]);
+    o.innerHTML =
+      '<span class="ic">' +
+      IC[t] +
+      "</span><span><b>" +
+      NAME[t] +
+      "</b><br><small>" +
+      HELP[t] +
+      "</small></span>";
+    o.onclick = function () {
+      var n = mk(t);
+      s.s(n);
+      SEL = n;
+      m.style.display = "none";
+      render();
+    };
+    m.appendChild(o);
+  });
+  var r = b.getBoundingClientRect();
+  m.style.display = "block";
+  m.style.left = Math.max(4, Math.min(r.right + 8, window.innerWidth - 310)) + "px";
+  m.style.top = Math.max(4, Math.min(r.top, window.innerHeight - m.offsetHeight - 8)) + "px";
+}
+// Eén aansluiting: label + het gekoppelde blok of een plus-knop.
+function slotEl(n, s) {
+  var d = document.createElement("div"),
+    l = document.createElement("div");
+  d.className = "kid";
+  l.className = "lab";
+  l.textContent = s.l;
+  d.appendChild(l);
+  var c = s.g();
+  if (c)
+    d.appendChild(
+      nodeEl(c, function () {
+        s.s(null);
+        render();
+      }),
+    );
+  else d.appendChild(plus(s));
+  return d;
+}
+// Tekent een blok met al zijn aansluitingen, recursief (de boom van links naar rechts).
+function nodeEl(n, del) {
+  DEL.set(n, del);
+  var w = document.createElement("div"),
+    S = slots(n);
+  w.className = "node";
+  w.appendChild(tile(n));
+  if (S.length) {
+    var k = document.createElement("div");
+    k.className = "kids";
+    S.forEach(function (s) {
+      k.appendChild(slotEl(n, s));
+    });
+    w.appendChild(k);
+  }
+  return w;
+}
+// Zit blok x in de boom van n?
+function has(n, x) {
+  return (
+    n === x ||
+    slots(n).some(function (s) {
+      var c = s.g();
+      return c && has(c, x);
+    })
+  );
+}
+// Bloktypes zonder instellingen: voor deze opent geen instellingenvenster.
+var NOSET = { msg: 1, hang: 1 };
+// Instellingenvenster van het geselecteerde blok (SEL). Bewaart de scrollpositie bij herladen.
+function panel() {
+  var p = $("panel"),
+    n = SEL,
+    op =
+      n &&
+      !NOSET[n.t] &&
+      !(
+        n.t === "nr" &&
+        !D.nrs.some(function (x) {
+          return x !== n.nr && FL[x] && FL[x].kid;
+        })
+      ),
+    same = p._n === n,
+    st = same ? p.scrollTop : 0;
+  p.innerHTML = "";
+  p._n = n;
+  p.classList.toggle("open", !!op);
+  $("pback").classList.toggle("open", !!op);
+  if (!op) return;
+  var h = document.createElement("div");
+  h.className = "bh";
+  h.style.setProperty("--c", COL[n.t]);
+  h.innerHTML = '<span class="ic">' + IC[n.t] + "</span><span>" + NAME[n.t] + "</span>";
+  var xb = btn(
+    "✕",
+    function () {
+      SEL = null;
+      render();
+    },
+    "cl",
+  );
+  xb.title = tx("Sluiten");
+  h.appendChild(xb);
+  p.appendChild(h);
+  var q = document.createElement("div");
+  q.className = "help";
+  q.textContent = HELP[n.t];
+  p.appendChild(q);
+  F[n.t] && F[n.t](p, n);
+  p.appendChild(
+    btn(
+      tx("Klaar"),
+      function () {
+        SEL = null;
+        render();
+      },
+      "p done",
+    ),
+  );
+  p.scrollTop = st;
+}
+$("pback").onclick = function () {
+  SEL = null;
+  if (root) render();
+};
+// Statusbalk boven het schema: wat nog ontbreekt, en hoeveel nummers een volledige call-flow hebben.
+function upd() {
+  var o = root.kid ? issues(root, []) : [],
+    s = $("st"),
+    dn = D.nrs.filter(function (n) {
+      return FL[n] && FL[n].kid && !issues(FL[n], []).length;
+    }).length;
+  s.className = "st" + (o.length ? " w" : "");
+  s.innerHTML =
+    tx("{0}<div class=\"mu\">{1} van {2} nummers hebben een volledige call-flow</div>", !root.kid
+      ? tx("<b>Nog geen call-flow ingesteld voor {0}.</b> Dit is optioneel: klik op de + om er een op te bouwen.", esc(cur))
+      : o.length
+        ? tx("<b>Nog in te vullen voor {0}:</b><ul>{1}</ul>", esc(cur), o
+            .map(function (x) {
+              return "<li>" + esc(x) + "</li>";
+            })
+            .join(""))
+        : tx("<b>✔ De call-flow van {0} is volledig.</b>", esc(cur)), dn, D.nrs.length);
+  // Is deze call-flow volledig en zijn er nog nummers zonder call-flow? Dan kan er een volgende gemaakt worden.
+  if (
+    root.kid &&
+    !o.length &&
+    D.nrs.some(function (n) {
+      return n !== cur && !(FL[n] && FL[n].kid);
+    })
+  )
+    s.appendChild(btn(tx("+ Call-flow voor een ander nummer instellen"), nextNr, "p"));
+}
+// Tekent enkel het schema opnieuw (niet het venster), zodat het typen in een veld niet onderbroken wordt.
+function refreshTree() {
+  var t = $("tree");
+  t.innerHTML = "";
+  t.appendChild(nodeEl(root, null));
+  fillPick();
+  upd();
+}
+// Volledig opnieuw tekenen: schema, venster, keuzelijst met nummers en status.
+function render() {
+  $("menu").style.display = "none";
+  if (SEL && !has(root, SEL)) SEL = null;
+  var t = $("tree");
+  t.innerHTML = "";
+  t.appendChild(nodeEl(root, null));
+  panel();
+  fillPick();
+  upd();
+}
+// Kiest het nummer waarvoor de call-flow wordt ingesteld.
+function setCur(n) {
+  cur = n;
+  if (!FL[n]) {
+    FL[n] = mk("nr");
+    FL[n].nr = n;
+  }
+  root = FL[n];
+  SEL = null;
+  flowVis();
+  render();
+}
+// Vult de keuzelijst met alle ingevulde nummers die niet als rechtstreeks nummer bij een gebruiker staan,
+// met per nummer de status van de call-flow.
+function fillPick() {
+  var s = $("selNr"),
+    ds = {};
+  nrsList().forEach(function (r) {
+    expandNums(r[0]).forEach(function (x) {
+      ds[x] = r[1];
+    });
+  });
+  s.innerHTML =
+    tx("<option value=\"\">– kies een nummer –</option>{0}", D.nrs
+      .map(function (n) {
+        var r = FL[n],
+          st = !r || !r.kid ? "" : issues(r, []).length ? tx("⚠ nog niet volledig") : tx("✔ call-flow volledig");
+        return '<option value="' + esc(n) + '">' + esc(n + (ds[n] ? " – " + ds[n] : "") + (st ? "   (" + st + ")" : "")) + "</option>";
+      })
+      .join(""));
+  s.value = cur;
+  s.className = cur ? "" : "ask";
+  $("pickInfo").textContent =
+    tx("{0}Een call-flow instellen is optioneel: nummers waarvoor u niets instelt, blijven zoals ze zijn.", cur ? "" : tx("Kies eerst een nummer. "));
+}
+// Keuze in de lijst: schema van dat nummer tonen (of niets tonen zolang er geen nummer gekozen is).
+$("selNr").onchange = function () {
+  if (this.value) setCur(this.value);
+  else {
+    cur = "";
+    root = null;
+    SEL = null;
+    flowVis();
+    panel();
+    fillPick();
+  }
+};
+// Terug naar de keuzelijst om een call-flow voor een ander nummer in te stellen.
+function nextNr() {
+  cur = "";
+  root = null;
+  SEL = null;
+  flowVis();
+  panel();
+  fillPick();
+  var s = $("selNr");
+  if (s.scrollIntoView) s.scrollIntoView({ block: "center", behavior: "smooth" });
+  try {
+    s.focus();
+    if (s.showPicker) s.showPicker();
+  } catch (e) {
+    /* niet elke browser laat dit toe: de lijst blijft dan gewoon gemarkeerd */
+  }
+}
+// Toont het schema pas wanneer een nummer gekozen is.
+function flowVis() {
+  var on = cur && D.nrs.length ? "" : "none";
+  ["fWrap", "st", "fTools"].forEach(function (i) {
+    $(i).style.display = on;
+  });
+}
+</script>
+<script>
+// Belgische telefoonnummers: notatie, nummerreeksen en keuzelijsten met nummers.
+// (Klassiek script: deelt de globale variabelen en functies met de andere bestanden in js/; laadvolgorde: zie index.html.)
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["06-nummers.js"] = "2026-10-21.1";
+
+/* ======================================================================
+ * TELEFOONNUMMERS: Belgische notatie, nummerreeksen en keuzelijsten met nummers
+ * ====================================================================== */
+
+// NM: onthoudt per nummerrij het laatst bekende nummer (om call-flows mee te laten verhuizen bij wijziging).
+// Z2: Belgische zones met een tweeciferig netnummer (de overige zones hebben één cijfer: 02, 03, 04, 09).
+var NM = {},
+  Z2 =
+    "10,11,12,13,14,15,16,19,50,51,52,53,54,55,56,57,58,59,60,61,63,64,65,67,68,69,71,80,81,82,83,84,85,86,87,89".split(
+      ",",
+    );
+// Controleert en formatteert een Belgisch nummer naar "+32 x xxx xx xx". Geeft {ok, txt, t}; t = "geo" of "gsm".
+function fmtBE(v) {
+  v = (v || "").trim();
+  if (!v) return { ok: true, txt: "", t: "" };
+  var d = v.replace(/[^\d+]/g, "").replace(/(?!^)\+/g, ""),
+    n;
+  if (d.charAt(0) === "+") {
+    if (d.indexOf("+32") !== 0) return { ok: false };
+    n = d.slice(3);
+  } else if (d.indexOf("0032") === 0) n = d.slice(4);
+  else if (d.charAt(0) === "0") n = d.slice(1);
+  else return { ok: false };
+  n = n.replace(/^0/, "");
+  if (/^[2349]\d{7}$/.test(n))
+    return {
+      ok: true,
+      t: "geo",
+      txt: "+32 " + n.charAt(0) + " " + n.slice(1, 4) + " " + n.slice(4, 6) + " " + n.slice(6),
+    };
+  if (/^\d{8}$/.test(n) && Z2.indexOf(n.slice(0, 2)) >= 0 && n.slice(0, 3) !== "800")
+    return {
+      ok: true,
+      t: "geo",
+      txt: "+32 " + n.slice(0, 2) + " " + n.slice(2, 4) + " " + n.slice(4, 6) + " " + n.slice(6),
+    };
+  if (/^4[5-9]\d{7}$/.test(n))
+    return {
+      ok: true,
+      t: "gsm",
+      txt: "+32 " + n.slice(0, 3) + " " + n.slice(3, 5) + " " + n.slice(5, 7) + " " + n.slice(7),
+    };
+  return { ok: false };
+}
+document.addEventListener("change", function (e) {
+  var t = e.target;
+  if (!t.classList || !t.classList.contains("be")) return;
+  var r = (t.dataset.range ? fmtNr : fmtBE)(t.value);
+  if (r.ok) t.value = r.txt;
+  var bad = !r.ok || (t.dataset.t === "gsm" && r.txt && r.t !== "gsm");
+  t.classList.toggle("bad", bad);
+  t.title = bad
+    ? t.dataset.t === "gsm"
+      ? tx("Geen geldig Belgisch GSM-nummer")
+      : tx("Geen geldig Belgisch telefoonnummer")
+    : "";
+});
+// Zoals fmtBE, maar ook voor nummerreeksen ("02 334 88 40 - 49", "tot", "t/m"). Max. 1000 nummers, zelfde zone.
+function fmtNr(v) {
+  v = (v || "").trim();
+  if (!v) return { ok: true, txt: "" };
+  var one = fmtBE(v);
+  if (one.ok) return one;
+  // Scheidingsteken van de reeks: eerst duidelijke tekens (" - ", "–", "tot", "t/m"); anders het laatste koppelteken,
+  // zodat ook "02-781-15-20-90" werkt (koppeltekens in het nummer zelf blijven dan behouden).
+  var p = v.split(/\s+[-–—]\s+|\s*[–—]\s*|\s+(?:tot|t\/m|to)\s+/i);
+  if (p.length !== 2) {
+    var k = v.lastIndexOf("-");
+    p = k > 0 ? [v.slice(0, k), v.slice(k + 1)] : [v];
+  }
+  if (p.length !== 2) return { ok: false };
+  var a = fmtBE(p[0]);
+  if (!a.ok || !a.txt) return { ok: false };
+  var dg = a.txt.replace(/^\+32/, "").replace(/\s/g, ""),
+    d2 = p[1].replace(/\D/g, ""),
+    b;
+  // Het laatste nummer mag volledig zijn, of enkel het eindstuk (bv. "49" of "782 00 10"): een volledig nummer
+  // heeft minstens 8 cijfers, alles daaronder is een eindstuk dat het einde van het eerste nummer vervangt.
+  if (d2.length && d2.length < 8) b = fmtBE("0" + dg.slice(0, dg.length - d2.length) + d2);
+  else {
+    b = fmtBE(p[1]);
+    if (!b.ok) b = fmtBE("0" + d2); // volledig nummer zonder beginnul, bv. "2 781 15 90"
+  }
+  if (!b.ok || !b.txt || b.t !== a.t) return { ok: false };
+  var S = a.txt.split(" "),
+    E = b.txt.split(" "),
+    de = b.txt.replace(/^\+32/, "").replace(/\s/g, "");
+  if (S.length !== E.length || S[1] !== E[1] || de.length !== dg.length || +de <= +dg || +de - +dg >= 1000)
+    return { ok: false };
+  var i = 0;
+  while (S[i] === E[i]) i++;
+  return { ok: true, txt: a.txt + " – " + E.slice(i).join(" "), t: a.t, range: true };
+}
+// Klapt een reeks uit tot alle afzonderlijke nummers (een gewoon nummer geeft zichzelf terug).
+function expandNums(t) {
+  var q = t.split(" – ");
+  if (q.length < 2) return [t];
+  var S = q[0].split(" "),
+    T = q[1].split(" "),
+    E = S.slice(0, S.length - T.length).concat(T),
+    a = +S.join("").replace(/^\+32/, ""),
+    b = +E.join("").replace(/^\+32/, ""),
+    o = [];
+  for (var x = a; x <= b && o.length < 1000; x++) {
+    var r = fmtBE("0" + x);
+    o.push(r.ok ? r.txt : String(x));
+  }
+  return o;
+}
+// Alle afzonderlijke nummers uit de nummerlijst (reeksen uitgeklapt, zonder dubbels).
+function allNums() {
+  var o = [];
+  nrsList().forEach(function (r) {
+    expandNums(r[0]).forEach(function (n) {
+      if (o.indexOf(n) < 0) o.push(n);
+    });
+  });
+  return o;
+}
+// Vult de keuzelijsten "nummer uit uw lijst" bij fax en alarm (met optie "Ander nummer…").
+function fillNrSel() {
+  document.querySelectorAll(".nrsel").forEach(function (s) {
+    var inp = $(s.dataset.for),
+      c = inp.value,
+      l = allNums();
+    s.innerHTML =
+      tx("<option value=\"\">– kies een nummer uit uw lijst –</option>{0}<option value=\"__other\">Ander nummer…</option>", l
+        .map(function (n) {
+          return "<option>" + esc(n) + "</option>";
+        })
+        .join(""));
+    if (c && l.indexOf(c) >= 0) {
+      s.value = c;
+      inp.style.display = "none";
+    } else if (c) {
+      s.value = "__other";
+      inp.style.display = "";
+    } else {
+      s.value = "";
+      inp.style.display = "none";
+    }
+  });
+}
+document.addEventListener("change", function (e) {
+  var s = e.target;
+  if (!s.classList || !s.classList.contains("nrsel")) return;
+  var inp = $(s.dataset.for);
+  if (s.value === "__other") {
+    inp.style.display = "";
+    inp.value = "";
+    inp.focus();
+  } else {
+    inp.style.display = "none";
+    inp.classList.remove("bad");
+    inp.value = s.value;
+  }
+});
+</script>
+<script>
+// Gegevens: koppeling nummerplan en call-flow, verzamelen van alle invoer, validatie per stap.
+// (Klassiek script: deelt de globale variabelen en functies met de andere bestanden in js/; laadvolgorde: zie index.html.)
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["07-gegevens.js"] = "2026-10-21.1";
+
+/* ======================================================================
+ * GEGEVENS: koppeling nummerplan <-> call-flow, verzamelen en controleren per stap
+ * ====================================================================== */
+
+// Leesbare naam van een gebruiker via het interne ID ("r"+rijnummer), bv. "201 – Jan Peeters".
+function ulab(id) {
+  var u = ppl().filter(function (x) {
+    return "r" + x.x === id;
+  })[0];
+  return u ? u.i + " – " + u.v + " " + u.f : tx("(gebruiker verwijderd)");
+}
+// Verwijdert uit een schema leden/voicemail-ontvangers die niet meer in het nummerplan staan.
+function clean(n) {
+  if (n.t === "ext") {
+    if (n.usr && D.users.indexOf(n.usr) < 0) n.usr = ""; // gebruiker bestaat niet meer
+    if (n.int && allNums().indexOf(n.int) < 0) n.int = ""; // nummer staat niet meer in de nummerlijst
+  }
+  if (n.sel)
+    n.sel = n.sel.filter(function (u) {
+      return D.users.indexOf(u) >= 0;
+    });
+  if (n.vmu)
+    n.vmu = n.vmu.filter(function (u) {
+      return D.users.indexOf(u) >= 0;
+    });
+  slots(n).forEach(function (s) {
+    var c = s.g();
+    if (c) clean(c);
+  });
+}
+// Welke nummers zijn rechtstreeks nummer van een gebruiker? (die krijgen geen eigen call-flow)
+function usedMap() {
+  var m = {};
+  ppl().forEach(function (u) {
+    if (u.r) m[u.r] = u.i + (u.v || u.f ? " – " + u.v + " " + u.f : "");
+  });
+  return m;
+}
+// Begint het schema van het gekozen nummer opnieuw.
+function fresh() {
+  FL[cur] = mk("nr");
+  FL[cur].nr = cur;
+  root = FL[cur];
+  SEL = null;
+}
+// Wordt uitgevoerd bij het openen van stap 5: synchroniseert nummers en gebruikers met de stappen ervoor.
+function initFlow() {
+  var um = usedMap(),
+    cn = {};
+  D.users = ppl().map(function (u) {
+    return "r" + u.x;
+  });
+  nrsList().forEach(function (r) {
+    if (r[0].indexOf(" – ") < 0) cn[r[2]] = r[0]; // enkel losse nummers: bij een gewijzigd nummer verhuist de call-flow mee
+  });
+  Object.keys(cn).forEach(function (id) {
+    var o = NM[id],
+      nw = cn[id];
+    if (o && o !== nw && FL[o] && !FL[nw]) {
+      FL[nw] = FL[o];
+      FL[nw].nr = nw;
+      delete FL[o];
+      if (cur === o) cur = nw;
+    }
+  });
+  NM = cn;
+  Object.keys(FL).forEach(function (k) {
+    clean(FL[k]);
+  });
+  // Elk nummer krijgt een eigen call-flow: ook de nummers van een reeks (apart), behalve de rechtstreekse nummers.
+  D.nrs = allNums().filter(function (n) {
+    return !um[n];
+  });
+  if (D.nrs.indexOf(cur) < 0) cur = D.nrs.length === 1 ? D.nrs[0] : "";
+  $("fNone").textContent = D.nrs.length
+    ? ""
+    : tx("Alle ingegeven nummers zijn het rechtstreeks nummer van een gebruiker: er is geen call-flow in te stellen.");
+  $("pick").style.display = D.nrs.length ? "" : "none";
+  flowVis();
+  if (cur) {
+    if (!FL[cur]) {
+      FL[cur] = mk("nr");
+      FL[cur].nr = cur;
+    }
+    root = FL[cur];
+    SEL = null;
+    render();
+  } else {
+    root = null;
+    SEL = null;
+    panel();
+    fillPick();
+  }
+}
+// "Opnieuw beginnen": wist het schema van het gekozen nummer (met bevestiging).
+$("bNew").onclick = function () {
+  var b = this,
+    t = tx("Opnieuw beginnen voor dit nummer");
+  if (root && root.kid && b.textContent === t) {
+    b.textContent = tx("Zeker? Dit wist het schema van dit nummer");
+    setTimeout(function () {
+      b.textContent = t;
+    }, 4000);
+    return;
+  }
+  b.textContent = t;
+  fresh();
+  render();
+};
+// Leest het nummerplan uit de tabel; volledig lege rijen worden genegeerd.
+function ppl() {
+  var P = [];
+  document.querySelectorAll("#ppl tr").forEach(function (r, x) {
+    var q = function (c) {
+        return r.querySelector(c);
+      },
+      app = [];
+    if (q(".pc").checked) app.push("PC");
+    if (q(".gm").checked) app.push("GSM");
+    var u = {
+      x: x + 1,
+      i: q(".in").value.trim(),
+      r: q(".rn").value.trim(),
+      v: q(".vn").value.trim(),
+      f: q(".fn").value.trim(),
+      app: app.join(" + ") || "-",
+      g: q(".gn").value.trim(),
+      m: q(".ml").value.trim(),
+    };
+    if (u.i || u.r || u.v || u.f || u.m || u.g || app.length) P.push(u);
+  });
+  return P;
+}
+// Leest de nummerlijst uit stap 2: [nummer of reeks, omschrijving, rij-ID].
+function nrsList() {
+  var n = [];
+  document.querySelectorAll("#nrs .row").forEach(function (r) {
+    var v = r.querySelector(".nr").value.trim();
+    if (v) n.push([v, r.querySelector(".nd").value.trim(), r.dataset.id]);
+  });
+  return n;
+}
+// Verzamelt alle ingevulde gegevens in één object voor het overzicht en de PDF.
+function gather() {
+  var o = {
+    bedrijf: val("bedrijf"),
+    adres: val("adres"),
+    contact: val("contact"),
+    nrs: nrsList(),
+    ppl: ppl(),
+  };
+  var f = tx("Nee");
+  if (val("fax") === "Ja") {
+    f = tx("Ja – nr. {0}, {1}", val("faxNr"), tx(val("faxHoe")));
+    if (val("faxHoe") === "Fax2mail") f += tx(" (naar {0})", val("faxMail"));
+    if (val("faxHoe") === "Andere") f += " (" + val("faxAnd") + ")";
+  }
+  var p = tx("Nee");
+  if (val("parlo") === "Ja") {
+    p =
+      val("parloPbx") === "Ja"
+        ? tx("Ja – gekoppeld met PBX, {0}, model: {1}", val("parloType") === "Andere" ? tx("andere: {0}", val("parloAnd")) : tx(val("parloType")), val("parloModel"))
+        : tx("Ja – niet gekoppeld met PBX");
+  }
+  var a = tx("Nee");
+  if (val("alarm") === "Ja") {
+    a = tx("Ja – {0}", val("alarmHoe") === "Andere" ? tx("andere: {0}", val("alarmAnd")) : tx(val("alarmHoe")));
+    if (val("alarmHoe") === "Analoge lijn") a += tx(" (nr. {0})", val("alarmNr"));
+  }
+  o.ap = [
+    [tx("Fax"), f],
+    [tx("Parlofoon"), p],
+    [tx("Alarm"), a],
+  ];
+  var um = usedMap();
+  // Overzicht per nummer. Van een reeks worden enkel de nummers met een call-flow (of een gebruiker) getoond;
+  // de overige nummers van de reeks komen samen op één regel.
+  o.flows = [];
+  o.nrs.forEach(function (r) {
+    var all = expandNums(r[0]);
+    if (all.length === 1) {
+      o.flows.push([
+        all[0],
+        um[all[0]]
+          ? tx("Rechtstreeks nummer van {0}", um[all[0]])
+          : FL[all[0]] && FL[all[0]].kid
+            ? outline(FL[all[0]], 0, "")
+            : tx("Niet ingesteld"),
+      ]);
+      return;
+    }
+    var rest = 0;
+    all.forEach(function (n) {
+      if (um[n]) o.flows.push([n, tx("Rechtstreeks nummer van {0}", um[n])]);
+      else if (FL[n] && FL[n].kid) o.flows.push([n, outline(FL[n], 0, "")]);
+      else rest++;
+    });
+    if (rest)
+      o.flows.push([r[0], rest === all.length ? tx("Niet ingesteld") : tx("Overige nummers van de reeks ({0}): niet ingesteld", rest)]);
+  });
+  return o;
+}
+// True als minstens één van de velden leeg is.
+function need(a) {
+  return a.some(function (i) {
+    return val(i) === "";
+  });
+}
+// Valideert een stap; geeft een foutmelding of "" als alles in orde is.
+function check(s) {
+  if (s === 0 && need(["bedrijf", "adres", "contact"]))
+    return tx("Vul bedrijfsnaam, adres en contactpersoon in.");
+  if (s === 1) {
+    var bd = "";
+    document.querySelectorAll("#nrs .row").forEach(function (d) {
+      var i = d.querySelector(".nr");
+      if (d.classList.contains("rng")) {
+        syncRng(d);
+        var r2 = fmtNr(i.value),
+          f = d.querySelector(".rf"),
+          t = d.querySelector(".rt");
+        if (i.value && !(f.value.trim() && t.value.trim() && r2.ok && r2.range)) {
+          if (!bd) bd = tx("reeks {0} - {1}", f.value.trim() || "?", t.value.trim() || "?");
+          f.classList.add("bad");
+          t.classList.add("bad");
+        } else if (r2.ok && r2.range) {
+          var q = r2.txt.split(" – ");
+          f.value = q[0];
+          t.value = q[1];
+          syncRng(d);
+        }
+      } else {
+        var r = fmtNr(i.value);
+        if (!r.ok) {
+          if (!bd) bd = i.value;
+        } else i.value = r.txt;
+      }
+    });
+    if (bd)
+      return (
+        tx("Geen geldig Belgisch telefoonnummer: {0} (bijvoorbeeld 02 334 88 44, 015 45 18 25 of een reeks 02 334 88 40 – 49; een reeks telt maximaal 1000 nummers).", bd)
+      );
+    if (!nrsList().length) return tx("Geef minstens één telefoonnummer in.");
+  }
+  if (s === 2) {
+    if (need(["fax", "parlo", "alarm"])) return tx("Beantwoord alle vragen over de randapparatuur.");
+    var bad = false,
+      v = val;
+    if (v("fax") === "Ja")
+      bad =
+        need(["faxNr", "faxHoe"]) ||
+        (v("faxHoe") === "Fax2mail" && need(["faxMail"])) ||
+        (v("faxHoe") === "Andere" && need(["faxAnd"]));
+    if (v("parlo") === "Ja")
+      bad =
+        bad ||
+        need(["parloPbx"]) ||
+        (v("parloPbx") === "Ja" &&
+          (need(["parloType", "parloModel"]) || (v("parloType") === "Andere" && need(["parloAnd"]))));
+    if (v("alarm") === "Ja")
+      bad =
+        bad ||
+        need(["alarmHoe"]) ||
+        (v("alarmHoe") === "Analoge lijn" && need(["alarmNr"])) ||
+        (v("alarmHoe") === "Andere" && need(["alarmAnd"]));
+    if (bad) return tx("Vul alle verplichte velden bij de randapparatuur in.");
+    var ck = [];
+    if (v("fax") === "Ja") ck.push("faxNr");
+    if (v("alarm") === "Ja" && v("alarmHoe") === "Analoge lijn") ck.push("alarmNr");
+    for (var qq = 0; qq < ck.length; qq++) {
+      var rr = fmtBE($(ck[qq]).value);
+      if (!rr.ok || !rr.txt)
+        return (
+          tx("Geen geldig Belgisch telefoonnummer bij {0} (bijvoorbeeld 02 334 88 44).", ck[qq] === "faxNr" ? tx("de fax") : tx("het alarm"))
+        );
+      $(ck[qq]).value = rr.txt;
+    }
+  }
+  if (s === 3) {
+    var P = ppl(),
+      seen = {};
+    if (!P.length) return tx("Voeg minstens één gebruiker toe.");
+    for (var j = 0; j < P.length; j++) {
+      var u = P[j],
+        n = tx(" (gebruiker {0})", u.x);
+      if (!u.i || !u.v || !u.f) return tx("Intern nummer, voornaam en familienaam zijn verplicht{0}.", n);
+      if (!/^\S+@\S+\.\S+$/.test(u.m)) return tx("Een geldig e-mailadres is verplicht{0}.", n);
+      if (u.app === "-") return tx("Duid minstens PC of GSM aan{0}.", n);
+      if (u.app.indexOf("GSM") >= 0 && !u.g)
+        return tx("GSM-nummer is verplicht bij een GSM-applicatie{0}.", n);
+      if (u.g) {
+        var rg = fmtBE(u.g);
+        if (!rg.ok || rg.t !== "gsm")
+          return tx("Geen geldig Belgisch GSM-nummer{0} (bijvoorbeeld 0470 12 34 56).", n);
+        document.querySelectorAll("#ppl tr")[u.x - 1].querySelector(".gn").value = rg.txt;
+      }
+      if (seen[u.i]) return tx("Intern nummer {0} komt meer dan één keer voor.", u.i);
+      seen[u.i] = 1;
+    }
+  }
+  if (s === 4) {
+    for (var k = 0; k < D.nrs.length; k++) {
+      var nr = D.nrs[k],
+        r = FL[nr],
+        e = "";
+      if (r && r.kid) {
+        var is = issues(r, []);
+        if (is.length) e = is[0];
+      }
+      if (e) {
+        setCur(nr);
+        return tx("Nummer {0}: {1}.", nr, e);
+      }
+    }
+  }
+  return "";
+}
+</script>
+<script>
+// PDF-verslag en overzichtspagina (tekening van de call-flow, tabellen).
+// (Klassiek script: deelt de globale variabelen en functies met de andere bestanden in js/; laadvolgorde: zie index.html.)
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["08-pdf-en-overzicht.js"] = "2026-10-21.1";
+
+/* ======================================================================
+ * PDF EN OVERZICHT: tekening van de call-flow, tabellen en overzichtspagina
+ * ====================================================================== */
+
+// "#rrggbb" -> [r, g, b].
+function hex(c) {
+  if (c.length === 4)
+    c = "#" + c.charAt(1) + c.charAt(1) + c.charAt(2) + c.charAt(2) + c.charAt(3) + c.charAt(3);
+  return [1, 3, 5].map(function (i) {
+    return parseInt(c.substr(i, 2), 16);
+  });
+}
+// Tekent het schema van één nummer op een liggende PDF-pagina (auto-schaling) met daaronder de
+// tabel "Instellingen van de blokken" (groepen, keuzemenu, openingsuren, forward, voicemail).
+function pdfFlow(d, root, nr) {
+  var TW = 38,
+    TH = 18,
+    GAP = 40,
+    VG = 6,
+    PW = d.internal.pageSize.getWidth(),
+    PH = d.internal.pageSize.getHeight(),
+    dep = 0;
+  function meas(n) {
+    var K = slots(n)
+        .filter(function (s) {
+          return s.g();
+        })
+        .map(function (s) {
+          return { s: s, c: meas(s.g()) };
+        }),
+      h = 0;
+    K.forEach(function (k, i) {
+      h += k.c.h + (i ? VG : 0);
+    });
+    return { n: n, K: K, kh: h, h: Math.max(h, TH) };
+  }
+  var m = meas(root),
+    dets = [];
+  (function walk(n) {
+    if ({ grp: 1, menu: 1, oh: 1, ext: 1, vm: 1 }[n.t])
+      dets.push([
+        n.t === "grp" ? tx("Groep {0}", (n.name || "").trim() || "?") : NAME[n.t],
+        n.t === "grp"
+          ? desc(n).split("\n").slice(1).join("\n")
+          : n.t === "menu"
+            ? tx("Toetsen: {0}", n.keys
+                .map(function (k) {
+                  return k.k === "Geen keuze" ? tx("geen keuze (beller drukt niets in)") : k.k;
+                })
+                .join(", "))
+            : desc(n),
+      ]);
+    slots(n).forEach(function (s) {
+      var c = s.g();
+      if (c) walk(c);
+    });
+  })(root);
+  var rs = dets.length ? Math.min(75, (PH - 42) * 0.42) : 0;
+  function place(m, x, y, dd) {
+    m.x = x;
+    m.cy = y + m.h / 2;
+    dep = Math.max(dep, dd);
+    var ky = y + (m.h - m.kh) / 2;
+    m.K.forEach(function (k) {
+      place(k.c, x + TW + GAP, ky, dd + 1);
+      ky += k.c.h + VG;
+    });
+  }
+  place(m, 0, 0, 0);
+  var Wt = (dep + 1) * (TW + GAP) - GAP,
+    sc = Math.max(0.3, Math.min(1, (PW - 24) / Wt, (PH - 42 - rs) / m.h)),
+    ox = 12,
+    oy = 32;
+  function X(v) {
+    return ox + v * sc;
+  }
+  function Y(v) {
+    return oy + v * sc;
+  }
+  function ln(a, b, c, e) {
+    d.line(X(a), Y(b), X(c), Y(e));
+  }
+  d.setFont("helvetica", "bold");
+  d.setFontSize(14);
+  d.setTextColor(0);
+  d.text(tx("Call-flow – {0}", nr), 12, 16);
+  d.setFont("helvetica", "normal");
+  d.setFontSize(9);
+  d.setTextColor(110);
+  d.text(tx("Wat er gebeurt wanneer iemand dit nummer belt"), 12, 22);
+  d.setDrawColor(150, 158, 170);
+  d.setLineWidth(Math.max(0.2, 0.5 * sc));
+  (function lines(m) {
+    if (m.K.length) {
+      var px = m.x + TW,
+        mx = px + 6,
+        ys = m.K.map(function (k) {
+          return k.c.cy;
+        }).concat(m.cy);
+      ln(px, m.cy, mx, m.cy);
+      ln(mx, Math.min.apply(null, ys), mx, Math.max.apply(null, ys));
+      m.K.forEach(function (k) {
+        ln(mx, k.c.cy, k.c.x, k.c.cy);
+        lines(k.c);
+      });
+    }
+  })(m);
+  (function boxes(m) {
+    var n = m.n,
+      x = X(m.x),
+      y = Y(m.cy - TH / 2),
+      w = TW * sc,
+      h = TH * sc,
+      c = hex(COL[n.t]);
+    d.setFillColor(255, 255, 255);
+    d.setDrawColor(150, 158, 170);
+    d.setLineWidth(0.3);
+    d.roundedRect(x, y, w, h, 2 * sc, 2 * sc, "FD");
+    d.setFillColor(c[0], c[1], c[2]);
+    d.rect(x + 0.3, y + 2 * sc, 1.6 * sc, h - 4 * sc, "F");
+    d.setFont("helvetica", "bold");
+    d.setFontSize(Math.max(4, 8 * sc));
+    d.setTextColor(20);
+    d.text(SHORT[n.t], x + w / 2 + 1, y + h * 0.42, { align: "center" });
+    d.setFont("helvetica", "normal");
+    d.setFontSize(Math.max(3.5, 6.5 * sc));
+    d.setTextColor(100);
+    d.text(d.splitTextToSize(sub(n) || "", w - 5).slice(0, 2), x + w / 2 + 1, y + h * 0.68, {
+      align: "center",
+    });
+    m.K.forEach(function (k) {
+      var lx = X((m.x + TW + 6 + k.c.x) / 2),
+        ly = Y(k.c.cy),
+        t = k.s.l;
+      d.setFont("helvetica", "bold");
+      d.setFontSize(Math.max(3.5, 5.5 * sc));
+      var tw = d.getTextWidth(t) + 3 * sc,
+        th = 4.2 * sc;
+      d.setFillColor(255, 255, 255);
+      d.setDrawColor(150, 158, 170);
+      d.setLineWidth(0.2);
+      d.roundedRect(lx - tw / 2, ly - th / 2, tw, th, th / 2, th / 2, "FD");
+      d.setTextColor(40);
+      d.text(t, lx, ly + 1.3 * sc, { align: "center" });
+      boxes(k.c);
+    });
+  })(m);
+  d.setTextColor(0);
+  if (dets.length) {
+    var ty = Y(m.h) + 9;
+    d.setFont("helvetica", "bold");
+    d.setFontSize(10);
+    d.text(tx("Instellingen van de blokken"), 12, ty);
+    d.setFont("helvetica", "normal");
+    d.autoTable({
+      startY: ty + 2,
+      head: [[tx("Blok"), tx("Instellingen")]],
+      body: dets,
+      theme: "grid",
+      styles: { fontSize: 8, cellPadding: 1.6 },
+      headStyles: { fillColor: [255, 121, 0], textColor: [0, 0, 0] },
+      margin: { left: 12, right: 12, bottom: 12 },
+      columnStyles: { 0: { cellWidth: 45, fontStyle: "bold" } },
+    });
+  }
+}
+// Maakt tekst veilig voor gebruik in HTML.
+function esc(t) {
+  var d = document.createElement("div");
+  d.textContent = t;
+  return d.innerHTML;
+}
+// HTML-tabel voor het overzicht.
+function table(h, rows) {
+  return (
+    "<table><tr>" +
+    h
+      .map(function (x) {
+        return "<th>" + esc(x) + "</th>";
+      })
+      .join("") +
+    "</tr>" +
+    rows
+      .map(function (r) {
+        return (
+          "<tr>" +
+          r
+            .map(function (x) {
+              return "<td>" + esc(x || "") + "</td>";
+            })
+            .join("") +
+          "</tr>"
+        );
+      })
+      .join("") +
+    "</table>"
+  );
+}
+// Bouwt de overzichtspagina (stap 6).
+function summary() {
+  var o = gather();
+  $("sum").innerHTML =
+    tx("<h3>Klant</h3>{0}<h3>Telefoonnummers</h3>{1}<h3>Randapparatuur</h3>{2}<h3>Nummerplan</h3>{3}<h3>Call-flow</h3>{4}", table(
+      [tx("Veld"), tx("Waarde")],
+      [
+        [tx("Bedrijfsnaam"), o.bedrijf],
+        [tx("Adres"), o.adres],
+        [tx("Contactpersoon"), o.contact],
+      ],
+    ), table([tx("Nummer"), tx("Omschrijving")], o.nrs), table([tx("Apparaat"), tx("Configuratie")], o.ap), table(
+      [tx("Intern"), tx("Rechtstreeks"), tx("Voornaam"), tx("Familienaam"), tx("Apps"), tx("GSM"), tx("E-mail")],
+      o.ppl.map(function (u) {
+        return [u.i, u.r, u.v, u.f, u.app, u.g, u.m];
+      }),
+    ), table([tx("Nummer"), tx("Call-flow")], o.flows));
+}
+// Sluit het stapmenu bij een klik ernaast.
+document.addEventListener("click", function (e) {
+  var m = $("menu");
+  if (
+    m.style.display === "block" &&
+    !m.contains(e.target) &&
+    !(e.target.closest && e.target.closest(".plus"))
+  )
+    m.style.display = "none";
+});
+// Esc sluit menu, bevestigingsvenster en instellingenvenster.
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Escape") return;
+  $("menu").style.display = "none";
+  $("conf").style.display = "none";
+  if (SEL) {
+    SEL = null;
+    if (root) render();
+  }
+});
+</script>
+<script>
+// Navigatie tussen de stappen en de PDF-download.
+// (Klassiek script: deelt de globale variabelen en functies met de andere bestanden in js/; laadvolgorde: zie index.html.)
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["09-navigatie.js"] = "2026-10-21.1";
+
+/* ======================================================================
+ * NAVIGATIE: stappen tonen, klikbare stappenbalk en PDF-download
+ * ====================================================================== */
+
+// Toont stap s en voert de voorbereiding ervan uit (keuzelijsten vullen, schema starten, overzicht bouwen).
+function show(s) {
+  step = s;
+  document.querySelectorAll(".step").forEach(function (e) {
+    e.classList.toggle("show", +e.dataset.s === s);
+  });
+  document.querySelectorAll("#bar i").forEach(function (e, k) {
+    e.classList.toggle("on", k <= s);
+    e.classList.toggle("cur", k === s);
+  });
+  $("prev").style.visibility = s ? "visible" : "hidden";
+  $("next").style.display = s === N - 1 ? "none" : "";
+  $("err").textContent = "";
+  if (s === 2) fillNrSel();
+  if (s === 3) fillRn();
+  if (s === 4) initFlow();
+  document.querySelectorAll("main,.in").forEach(function (e) {
+    e.style.maxWidth = s === 3 || s === 4 ? "1320px" : "760px";
+  });
+  if (s === N - 1) summary();
+  window.scrollTo(0, 0);
+  cond();
+}
+$("prev").onclick = function () {
+  show(step - 1);
+};
+$("next").onclick = function () {
+  var e = check(step);
+  if (e) {
+    $("err").textContent = e;
+    return;
+  }
+  show(step + 1);
+};
+
+// PDF-verslag maken met jsPDF/autoTable en downloaden (in Claude via de download-API, anders via een gewone link).
+$("pdf").onclick = async function () {
+  var msg = $("pdfMsg");
+  msg.textContent = "";
+  try {
+    var o = gather(),
+      J = window.jspdf.jsPDF,
+      d = new J({ unit: "mm", format: "a4" }),
+      y = 20,
+      W = d.internal.pageSize.getWidth();
+    var im = document.querySelector(".logo");
+    if (im && im.naturalWidth) {
+      var lw = 44,
+        lh = (lw * im.naturalHeight) / im.naturalWidth;
+      d.setFillColor(0, 0, 0);
+      d.rect(0, 0, W, lh + 8, "F");
+      d.setFillColor(255, 121, 0);
+      d.rect(0, lh + 8, W, 1.2, "F");
+      d.addImage(im.src, "JPEG", 10, 4, lw, lh);
+      y = lh + 22;
+    }
+    d.setFontSize(18);
+    d.text(tx("Cloud Telephony – configuratie"), 14, y);
+    y += 7;
+    d.setFontSize(10);
+    d.setTextColor(110);
+    d.text(tx("Opgemaakt op {0}", new Date().toLocaleDateString(LANG === "fr" ? "fr-BE" : "nl-BE")), 14, y);
+    d.setTextColor(0);
+    y += 8;
+    function sec(t, h, rows, w) {
+      d.setFontSize(12);
+      d.text(t, 14, y);
+      d.autoTable({
+        startY: y + 2,
+        head: [h],
+        body: rows,
+        theme: "grid",
+        styles: { fontSize: 9 },
+        headStyles: { fillColor: [255, 121, 0], textColor: [0, 0, 0] },
+        margin: { left: 14, right: 14 },
+        columnStyles: w || {},
+      });
+      y = d.lastAutoTable.finalY + 9;
+    }
+    sec(
+      tx("Klantgegevens"),
+      [tx("Veld"), tx("Waarde")],
+      [
+        [tx("Bedrijfsnaam"), o.bedrijf],
+        [tx("Adres"), o.adres],
+        [tx("Contactpersoon"), o.contact],
+      ],
+      { 0: { cellWidth: 45 } },
+    );
+    sec(tx("Telefoonnummers"), [tx("Nummer"), tx("Omschrijving")], o.nrs.length ? o.nrs : [["-", "-"]]);
+    sec(tx("Randapparatuur"), [tx("Apparaat"), tx("Configuratie")], o.ap, { 0: { cellWidth: 35 } });
+    sec(
+      tx("Nummerplan"),
+      [tx("Intern"), tx("Rechtstr."), tx("Voornaam"), tx("Familienaam"), tx("Apps"), tx("GSM"), tx("E-mail")],
+      o.ppl.map(function (u) {
+        return [u.i, u.r || "-", u.v, u.f, u.app, u.g || "-", u.m];
+      }),
+    );
+    sec(tx("Call-flow"), [tx("Nummer"), tx("Call-flow")], o.flows, { 0: { cellWidth: 35 } });
+    var um2 = usedMap();
+    allNums().forEach(function (nr) {
+      var f = FL[nr];
+      if (f && f.kid && !um2[nr]) {
+        d.addPage("a4", "landscape");
+        pdfFlow(d, f, nr);
+      }
+    });
+    var pages = d.getNumberOfPages();
+    for (var i = 1; i <= pages; i++) {
+      d.setPage(i);
+      d.setFontSize(8);
+      d.setTextColor(120);
+      d.text(i + " / " + pages, d.internal.pageSize.getWidth() - 14, d.internal.pageSize.getHeight() - 8, {
+        align: "right",
+      });
+    }
+    var dt = new Date(),
+      pad = function (n) {
+        return (n < 10 ? "0" : "") + n;
+      },
+      stamp = dt.getFullYear() + "-" + pad(dt.getMonth() + 1) + "-" + pad(dt.getDate()),
+      title =
+        tx("Cloud_Telephony_Configuratie_{0}_{1}", o.bedrijf.replace(/[^A-Za-z0-9\u00C0-\u00FF]+/g, "_").replace(/^_+|_+$/g, "") || tx("klant"), stamp);
+    d.setProperties({ title: title });
+    var blob = d.output("blob"),
+      name = title + ".pdf";
+    var dl = window.claude && (await window.claude.use("downloads"));
+    if (!dl) {
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = name;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () {
+        URL.revokeObjectURL(a.href);
+      }, 3000);
+      msg.textContent = tx("PDF gedownload.");
+      return;
+    }
+    await dl.save({ filename: name, data: blob });
+    msg.textContent = tx("PDF opgeslagen.");
+  } catch (e) {
+    msg.textContent =
+      e && e.code === "declined" ? tx("Download geannuleerd.") : tx("PDF maken mislukt: {0}", (e && e.message) || e);
+  }
+};
+// Springt naar een stap; vooruit springen controleert eerst alle stappen ertussen.
+function goto(k) {
+  if (k <= step) {
+    show(k);
+    return;
+  }
+  for (var j = step; j < k; j++) {
+    var e = check(j);
+    if (e) {
+      show(j);
+      $("err").textContent = e;
+      return;
+    }
+    show(j + 1);
+  }
+}
+</script>
+<script>
+// Tijdelijk bewaren van de invoer in dit browsertabblad (sessionStorage), zodat een herlaad of per ongeluk
+// vernieuwen niets kost. Sluit u het tabblad, dan is alles gewist. Er wordt niets naar een server gestuurd.
+// Bewaard worden: de vaste velden, de nummerlijst, het nummerplan, de call-flows en de huidige stap.
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["10-opslag.js"] = "2026-10-21.1";
+
+var STORE_KEY = "ctcfg-v1";
+var STORE_OK = (function () {
+  try {
+    sessionStorage.setItem("__t", "1");
+    sessionStorage.removeItem("__t");
+    return true;
+  } catch (e) {
+    return false; // opslag niet beschikbaar (bv. geblokkeerd): het formulier werkt gewoon zonder
+  }
+})();
+var wiping = false; // true tijdens "alles wissen": voorkomt dat de pagina zichzelf opnieuw bewaart
+
+// Bewaart de volledige toestand van het formulier.
+function saveState() {
+  if (!STORE_OK || wiping) return;
+  try {
+    var S = { v: 1, step: step, cur: cur, nm: NM, fl: FL, f: {}, nrs: [], ppl: [] };
+    // Vaste velden (de keuzelijsten "nummer uit uw lijst" worden afgeleid en niet bewaard)
+    document.querySelectorAll(".card input[id], .card select[id]").forEach(function (e) {
+      if (!e.classList.contains("nrsel")) S.f[e.id] = e.type === "checkbox" ? e.checked : e.value;
+    });
+    document.querySelectorAll("#nrs .row").forEach(function (r) {
+      var q = function (c) {
+        var e = r.querySelector(c);
+        return e ? e.value : "";
+      };
+      S.nrs.push({ id: r.dataset.id, rng: r.classList.contains("rng"), nr: q(".nr"), rf: q(".rf"), rt: q(".rt"), nd: q(".nd") });
+    });
+    document.querySelectorAll("#ppl tr").forEach(function (r) {
+      var q = function (c) {
+        return r.querySelector(c).value;
+      };
+      S.ppl.push({ i: q(".in"), rn: q(".rn"), v: q(".vn"), f: q(".fn"), g: q(".gn"), m: q(".ml"), pc: r.querySelector(".pc").checked, gm: r.querySelector(".gm").checked });
+    });
+    sessionStorage.setItem(STORE_KEY, JSON.stringify(S));
+  } catch (e) {
+    /* opslag vol of geblokkeerd: negeren */
+  }
+}
+
+// Zet de bewaarde toestand terug. Ongeldige of onverwachte gegevens worden genegeerd en gewist.
+function restoreState() {
+  if (!STORE_OK) return;
+  try {
+    var raw = sessionStorage.getItem(STORE_KEY);
+    if (!raw) return;
+    var S = JSON.parse(raw);
+    if (!S || S.v !== 1) throw new Error("onbekende versie");
+    Object.keys(S.f || {}).forEach(function (id) {
+      var e = $(id);
+      if (!e) return;
+      if (e.type === "checkbox") e.checked = !!S.f[id];
+      else e.value = S.f[id];
+    });
+    if (S.nrs && S.nrs.length) {
+      $("nrs").innerHTML = "";
+      S.nrs.forEach(function (o) {
+        addNr(!!o.rng);
+        var r = $("nrs").lastChild;
+        r.dataset.id = o.id;
+        NID = Math.max(NID, +o.id || 0);
+        if (o.rng) {
+          r.querySelector(".rf").value = o.rf;
+          r.querySelector(".rt").value = o.rt;
+          syncRng(r);
+        } else r.querySelector(".nr").value = o.nr;
+        r.querySelector(".nd").value = o.nd;
+      });
+    }
+    var rows = document.querySelectorAll("#ppl tr");
+    fillRn(); // eerst de keuzelijsten vullen met de teruggezette nummers
+    (S.ppl || []).forEach(function (o, i) {
+      var r = rows[i];
+      if (!r) return;
+      r.querySelector(".in").value = o.i;
+      r.querySelector(".vn").value = o.v;
+      r.querySelector(".fn").value = o.f;
+      r.querySelector(".gn").value = o.g;
+      r.querySelector(".ml").value = o.m;
+      r.querySelector(".pc").checked = !!o.pc;
+      r.querySelector(".gm").checked = !!o.gm;
+      r.querySelector(".rn").value = o.rn;
+    });
+    fillRn();
+    NM = S.nm || {};
+    FL = S.fl || {};
+    cur = S.cur || "";
+    step = Math.max(0, Math.min(N - 1, S.step | 0));
+  } catch (e) {
+    try {
+      sessionStorage.removeItem(STORE_KEY);
+    } catch (e2) {
+      /* negeren */
+    }
+  }
+}
+
+// Bewaren na elke wijziging (met een korte vertraging), en bij het verlaten van de pagina.
+var saveTimer = 0;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveState, 300);
+}
+["input", "change", "click", "keyup"].forEach(function (ev) {
+  document.addEventListener(ev, scheduleSave, true);
+});
+window.addEventListener("pagehide", saveState);
+
+// "Alles wissen": eerst een tweede klik ter bevestiging, dan bewaarde gegevens wissen en de pagina herladen.
+var WIPE_TXT = $("wipe").textContent;
+$("wipe").onclick = function () {
+  var b = this;
+  if (!b.dataset.sure) {
+    b.dataset.sure = "1";
+    b.textContent = tx("Zeker? Klik nogmaals om alles te wissen");
+    setTimeout(function () {
+      delete b.dataset.sure;
+      b.textContent = WIPE_TXT;
+    }, 4000);
+    return;
+  }
+  wiping = true;
+  try {
+    sessionStorage.removeItem(STORE_KEY);
+  } catch (e) {
+    /* negeren */
+  }
+  location.reload();
+};
+</script>
+<script>
+// Opstarten: standaardrijen aanmaken, eventueel bewaarde invoer terugzetten en de eerste stap tonen.
+
+// Versie van dit bestand (zie tools/stamp-version.py); de pagina controleert of alle bestanden dezelfde versie hebben.
+window.VER = window.VER || {};
+window.VER["11-start.js"] = "2026-10-21.1";
+
+$("ver").textContent = tx("Versie {0}", APP_VERSION);
+
+// Controle bij het opstarten: zijn alle bestanden van dezelfde versie? Een oud, ontbrekend of in de cache bewaard
+// bestand geeft anders vreemd gedrag (bv. een nieuwe pagina met oude code). Bij een verschil verschijnt een melding.
+(function () {
+  var want = document.querySelector('meta[name="app-version"]').content,
+    got = window.VER || {},
+    bad = [];
+  document.querySelectorAll('script[src^="js/"]').forEach(function (s) {
+    var f = s.getAttribute("src").replace(/^js\//, "").replace(/\?.*$/, "");
+    if (got[f] !== want) bad.push(f + (got[f] ? tx(" (versie {0})", got[f]) : tx(" (oud, ontbreekt of niet geladen)")));
+  });
+  if (bad.length) {
+    var b = document.createElement("div");
+    b.className = "verwarn";
+    b.textContent =
+      tx("Let op: niet alle bestanden zijn van versie {0}. Upload deze bestanden opnieuw en ververs de pagina met Ctrl+F5: {1}", want, bad.join(", "));
+    document.body.insertBefore(b, document.body.firstChild);
+  }
+})();
+
+// Standaardrijen: één lege nummerrij en drie lege rijen in het nummerplan.
+addNr();
+addP();
+addP();
+addP();
+
+// Bewaarde invoer uit dit tabblad terugzetten (overschrijft de lege standaardrijen; zie 10-opslag.js).
+restoreState();
+
+// Klikbare stappenbalk: terugspringen kan altijd, vooruit springen controleert de stappen ertussen.
+document.querySelectorAll("#bar i").forEach(function (e, k) {
+  e.title = k <= step ? tx("Ga naar deze stap") : tx("Ga naar deze stap (de stappen ertussen worden gecontroleerd)");
+  e.onclick = function () {
+    goto(k);
+  };
+});
+show(step);
+</script>
+</body>
+</html>

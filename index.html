@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="app-version" content="2026-10-21.1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cloud Telephony – configuratieformulier</title>
+<!-- PDF-bibliotheken (exacte versies vastgepind); het formulier werkt enkel online. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<link rel="stylesheet" href="css/style.css?v=2026-10-21.1">
+</head>
+<body>
+<header class="top"><div class="in"><div class="lang" role="group" aria-label="Taal / Langue"><button type="button" id="lang-nl" lang="nl" title="Nederlands">NL</button><button type="button" id="lang-fr" lang="fr" title="Français">FR</button></div><img class="logo" alt="Orange Business"><h1>Cloud Telephony – configuratie</h1><p>Vul de gegevens stap voor stap in. Op het einde maakt u een PDF-verslag.</p></div></header>
+<main>
+<div class="steps" id="bar"><i>1<span class="sl"> Klant</span></i><i>2<span class="sl"> Nummers</span></i><i>3<span class="sl"> Randapparatuur</span></i><i>4<span class="sl"> Nummerplan</span></i><i>5<span class="sl"> Call-flow</span></i><i>6<span class="sl"> Overzicht</span></i></div>
+<div class="card">
+
+<section class="step" data-s="0">
+<h2>1. Klantgegevens</h2>
+<label>Bedrijfsnaam *</label><input id="bedrijf" autocomplete="organization">
+<label>Adres *</label><input id="adres" autocomplete="street-address">
+<label>Contactpersoon *</label><input id="contact" autocomplete="name">
+</section>
+
+<section class="step" data-s="1">
+<h2>2. Gebruikte telefoonnummers</h2>
+<p class="sub">Geef alle nummers in die momenteel in gebruik zijn. Hebt u een reeks opeenvolgende nummers (bv. 02 334 88 40 tot 49)? Gebruik dan <b>+ Nummerreeks toevoegen</b>.</p>
+<div id="nrs"></div>
+<div class="btns"><button type="button" id="addNr">+ Nummer toevoegen</button><button type="button" id="addRg">+ Nummerreeks toevoegen</button></div>
+</section>
+
+<section class="step" data-s="2">
+<h2>3. Randapparatuur</h2>
+<div class="blk"><b>Fax</b>
+<label>Fax aanwezig?</label><select id="fax"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="fax=Ja">
+<label>Faxnummer *</label><select id="faxSel" class="nrsel" data-for="faxNr"></select><input id="faxNr" class="be" inputmode="tel" placeholder="bv. 02 334 88 44" style="display:none;margin-top:6px">
+<label>Hoe is de fax aangesloten? *</label>
+<select id="faxHoe"><option value="">– kies –</option><option>Analoge lijn</option><option>Fax2mail</option><option>Andere</option></select>
+<div class="cond" data-if="faxHoe=Fax2mail"><label>E-mailadres waarnaar de faxen worden verstuurd *</label><input id="faxMail" type="email"></div>
+<div class="cond" data-if="faxHoe=Andere"><label>Toelichting *</label><input id="faxAnd"></div>
+</div></div>
+<div class="blk"><b>Parlofoon</b>
+<label>Parlofoon aanwezig?</label><select id="parlo"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="parlo=Ja">
+<label>Gekoppeld met de PBX?</label><select id="parloPbx"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="parloPbx=Ja">
+<label>Type koppeling *</label><select id="parloType"><option value="">– kies –</option><option>Analoog</option><option>IP</option><option>Andere</option></select>
+<div class="cond" data-if="parloType=Andere"><label>Toelichting *</label><input id="parloAnd"></div>
+<label>Model *</label><input id="parloModel">
+</div></div></div>
+<div class="blk"><b>Alarm</b>
+<label>Alarm aanwezig?</label><select id="alarm"><option value="">– kies –</option><option>Ja</option><option>Nee</option></select>
+<div class="cond" data-if="alarm=Ja">
+<label>Werking alarm *</label><select id="alarmHoe"><option value="">– kies –</option><option>Analoge lijn</option><option>Netwerk</option><option>SIM</option><option>Andere</option></select>
+<div class="cond" data-if="alarmHoe=Analoge lijn"><label>Welk nummer? *</label><select id="alarmSel" class="nrsel" data-for="alarmNr"></select><input id="alarmNr" class="be" inputmode="tel" placeholder="bv. 02 334 88 44" style="display:none;margin-top:6px"></div>
+<div class="cond" data-if="alarmHoe=Andere"><label>Toelichting *</label><input id="alarmAnd"></div>
+</div></div>
+</section>
+
+<section class="step" data-s="3">
+<h2>4. Nummerplan</h2>
+<p class="sub">Maximaal 3 gebruikers. Laat een rij leeg als ze niet nodig is. Zodra u een veld invult, moeten de verplichte velden van die rij ingevuld zijn en moet minstens PC of GSM aangeduid zijn. U kan ook cellen uit Excel plakken (zelfde kolomvolgorde) en navigeren met de pijltjestoetsen, Tab en Enter.</p>
+<div class="tw"><table class="np"><thead><tr><th>Intern *</th><th>Rechtstreeks (optioneel)</th><th>Voornaam *</th><th>Familienaam *</th><th>PC</th><th>GSM</th><th>GSM-nummer</th><th>E-mail *</th><th></th></tr></thead><tbody id="ppl"></tbody></table></div>
+<button type="button" id="addP" style="display:none">+ Gebruiker toevoegen</button>
+</section>
+<section class="step" data-s="4"><div class="sch">
+<h2>5. Call-flow</h2>
+<p class="sub">Kies in de lijst het nummer waarvoor u iets wil instellen en bouw dan op wat er gebeurt wanneer iemand dat nummer belt. Een call-flow instellen is optioneel: nummers waarvoor u niets instelt, blijven zoals ze zijn. Klik op een <b>+</b> om een stap toe te voegen en op een blok om de instellingen te openen. Houd uw muis boven een blok of knop voor meer uitleg.</p>
+<div class="pickbox" id="pick"><label for="selNr">Voor welk nummer wilt u een call-flow instellen?</label><select id="selNr"></select><div class="mu" id="pickInfo"></div></div><div class="st" id="st"></div><p class="sub" id="fNone"></p>
+<div class="wrap" id="fWrap"><div class="cv"><div id="tree"></div></div><div id="panel" class="pn"></div></div>
+<div class="tools" id="fTools" style="margin-top:12px"><button type="button" id="bNew">Opnieuw beginnen voor dit nummer</button></div>
+</div></section>
+
+<section class="step" data-s="5">
+<h2>6. Overzicht</h2>
+<div class="sum" id="sum"></div>
+<button type="button" class="p" id="pdf">PDF-verslag downloaden</button>
+<div class="err" id="pdfMsg"></div>
+</section>
+
+<div class="err" id="err"></div>
+<div class="nav"><button type="button" id="prev">← Vorige</button><button type="button" class="p" id="next">Volgende →</button></div>
+</div>
+</main>
+<footer><div class="in">Alle gegevens blijven in uw browser; het PDF-verslag wordt lokaal aangemaakt. Uw invoer wordt enkel in dit tabblad bewaard en verdwijnt wanneer u het tabblad sluit.<br><button type="button" class="lnk" id="wipe">Alle gegevens wissen en opnieuw beginnen</button> <span class="mu" id="ver"></span></div></footer>
+<div id="pback"></div><div id="menu"></div><div id="conf"></div><div id="tip"></div>
+<script src="js/00-logo.js?v=2026-10-21.1"></script>
+<script src="js/01-i18n.js?v=2026-10-21.1"></script>
+<script src="js/02-i18n-fr.js?v=2026-10-21.1"></script>
+<script src="js/03-basis.js?v=2026-10-21.1"></script>
+<script src="js/04-callflow-model.js?v=2026-10-21.1"></script>
+<script src="js/05-callflow-scherm.js?v=2026-10-21.1"></script>
+<script src="js/06-nummers.js?v=2026-10-21.1"></script>
+<script src="js/07-gegevens.js?v=2026-10-21.1"></script>
+<script src="js/08-pdf-en-overzicht.js?v=2026-10-21.1"></script>
+<script src="js/09-navigatie.js?v=2026-10-21.1"></script>
+<script src="js/10-opslag.js?v=2026-10-21.1"></script>
+<script src="js/11-start.js?v=2026-10-21.1"></script>
+</body>
+</html>
